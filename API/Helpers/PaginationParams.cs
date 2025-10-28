@@ -5,13 +5,29 @@ namespace Api.Helpers
   public class PaginationParams
   {
     private const int MaxPageSize = 10000;
-    public int PageNumber { get; set; } = 1;
-    private int _length = 10;
+    private const int DefaultPageSize = 10;
+    private int _pageNumber = 1;
+    private int _pageSize = DefaultPageSize;
+
+    public int PageNumber
+    {
+      get => _pageNumber;
+      set => _pageNumber = value < 1 ? 1 : value;
+    }
 
     public int PageSize
     {
-      get => _length;
-      set => _length = (value > MaxPageSize) ? MaxPageSize : value;
+      get => _pageSize;
+      set
+      {
+        if (value < 1)
+        {
+          _pageSize = DefaultPageSize;
+          return;
+        }
+
+        _pageSize = value > MaxPageSize ? MaxPageSize : value;
+      }
     }
 
   }

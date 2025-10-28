@@ -1,74 +1,45 @@
-// /using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using Microsoft.EntityFrameworkCore;
-
-// namespace Api.Helpers
-// {
-//     public class PagedList<T> : List<T>
-//     {
-//         public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
-//         {
-//             CurrentPage = pageNumber;
-//             TotalPages = (int) Math.Ceiling(count / (double) pageSize);
-//             PageSize = pageSize;
-//             TotalCount = count;
-//             AddRange(items);
-//         }
-
-//         public int CurrentPage { get; set; }
-//         public int TotalPages { get; set; }
-//         public int PageSize { get; set; }
-//         public int TotalCount { get; set; }
-
-//         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber,
-//             int pageSize)
-//         {
-//             var count =  source.Count();
-//             var items =  source.Skip(pageNumber - 1).Take(pageSize).ToList();
-//             return new PagedList<T>(items, count, pageNumber, pageSize);
-//         }
-//     }
-// }
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+namespace Api.Helpers;
 
 public class PagedList<T> : List<T>
 {
+    private const int DefaultPageNumber = 1;
+    private const int DefaultPageSize = 10;
+
     public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
     {
-        CurrentPage = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        PageSize = pageSize;
         TotalCount = count;
+        PageSize = pageSize;
+        TotalPages = pageSize > 0 ? (int)Math.Ceiling(count / (double)pageSize) : 0;
+        CurrentPage = TotalPages == 0 ? DefaultPageNumber : Math.Min(Math.Max(pageNumber, DefaultPageNumber), TotalPages);
         AddRange(items);
     }
 
-    // Current page number (1-based)
-    public int CurrentPage { get; private set; }
+    public int CurrentPage { get; }
 
-    // Total number of pages
-    public int TotalPages { get; private set; }
+    public int TotalPages { get; }
 
-    // Number of items per page
-    public int PageSize { get; private set; }
+    public int PageSize { get; }
 
-    // Total number of items in the source
-    public int TotalCount { get; private set; }
+    public int TotalCount { get; }
 
-    // Creates a paginated list asynchronously
     public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
     {
-        // Count all items in the source
-        var count = source.Count();
+        var normalizedPageNumber = Math.Max(pageNumber, DefaultPageNumber);
+        var normalizedPageSize = Math.Max(pageSize, DefaultPageSize);
 
-        // Skip and take for the requested page
-        var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        var count = await source.CountAsync();
+        var totalPages = normalizedPageSize > 0 ? (int)Math.Ceiling(count / (double)normalizedPageSize) : 0;
+        var effectivePageNumber = totalPages == 0 ? DefaultPageNumber : Math.Min(normalizedPageNumber, totalPages);
 
-        // Create a new paginated list
-        return new PagedList<T>(items, count, pageNumber, pageSize);
+        var skip = (effectivePageNumber - 1) * normalizedPageSize;
+        var items = await source.Skip(skip).Take(normalizedPageSize).ToListAsync();
+
+        return new PagedList<T>(items, count, effectivePageNumber, normalizedPageSize);
     }
 }
