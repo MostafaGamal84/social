@@ -65,8 +65,23 @@ namespace API.Services
             try
             {
                 var body = BuildRequestPayload(request);
-                using var httpRequest = new HttpRequestMessage(HttpMethod.Post, _options.Endpoint);
+                var endpoint = string.IsNullOrWhiteSpace(_options.Endpoint)
+                    ? "https://api.openai.com/v1/chat/completions"
+                    : _options.Endpoint;
+
+                using var httpRequest = new HttpRequestMessage(HttpMethod.Post, endpoint);
                 httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _options.ApiKey);
+                httpRequest.Headers.Accept.Clear();
+                httpRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                if (!string.IsNullOrWhiteSpace(_options.Organization))
+                {
+                    httpRequest.Headers.Add("OpenAI-Organization", _options.Organization);
+                }
+
+                if (!string.IsNullOrWhiteSpace(_options.Project))
+                {
+                    httpRequest.Headers.Add("OpenAI-Project", _options.Project);
+                }
                 httpRequest.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
                 using var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
@@ -74,14 +89,23 @@ namespace API.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
+                    var errorMessage = ExtractOpenAiError(rawContent);
                     _logger.LogError("OpenAI request failed with status {Status}: {Body}", response.StatusCode, rawContent);
-                    return new ChatInterpretationResponse
+
+                    var errorResponse = new ChatInterpretationResponse
                     {
                         Success = false,
                         ShouldSearch = false,
-                        Reply = "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً.",
-                        Errors = { "OpenAI request failed." }
+                        Reply = "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً."
                     };
+
+                    errorResponse.Errors.Add("فشل طلب OpenAI.");
+                    if (!string.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        errorResponse.Errors.Add($"التفاصيل: {errorMessage}");
+                    }
+
+                    return errorResponse;
                 }
 
                 var assistantJson = ExtractAssistantJson(rawContent);
@@ -206,6 +230,40 @@ namespace API.Services
 
             using var contentDocument = JsonDocument.Parse(content);
             return contentDocument.RootElement.Clone();
+        }
+
+        private static string? ExtractOpenAiError(string rawResponse)
+        {
+            if (string.IsNullOrWhiteSpace(rawResponse))
+            {
+                return null;
+            }
+
+            try
+            {
+                using var document = JsonDocument.Parse(rawResponse);
+                if (document.RootElement.TryGetProperty("error", out var errorElement))
+                {
+                    if (errorElement.ValueKind == JsonValueKind.String)
+                    {
+                        return errorElement.GetString();
+                    }
+
+                    if (errorElement.ValueKind == JsonValueKind.Object)
+                    {
+                        if (errorElement.TryGetProperty("message", out var messageElement) && messageElement.ValueKind == JsonValueKind.String)
+                        {
+                            return messageElement.GetString();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+            return null;
         }
 
         private ChatInterpretationResponse BuildInterpretationResponse(JsonElement assistantRoot, ChatContextDto context)
