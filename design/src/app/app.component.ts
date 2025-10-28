@@ -78,6 +78,14 @@ export class AppComponent implements OnInit {
     this.loadIncidents(1);
   }
 
+  filterSubByMain(mainId: number | null): LookupItem[] {
+    if (!mainId) {
+      return this.subCategories;
+    }
+
+    return this.subCategories.filter(item => item.parentId === mainId);
+  }
+
   changePage(page: number): void {
     if (!this.pagination) {
       return;
