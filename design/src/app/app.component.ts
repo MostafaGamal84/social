@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   pagination: PaginatedResponse<MediaIncident>['pagination'] | null = null;
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
+  readonly mediaMonitoringMainCategoryId = 34;
   readonly lookupTypes = {
     center: 'Center',
     neighborhood: 'Neighborhood',
@@ -47,6 +48,7 @@ export class AppComponent implements OnInit {
       centerId: [null],
       neighborhoodId: [null],
       roadId: [null],
+      subCategoryId: [null],
       statusId: [null],
       priorityId: [null],
       pageSize: [this.pageSizeOptions[0]]
@@ -68,6 +70,7 @@ export class AppComponent implements OnInit {
       centerId: null,
       neighborhoodId: null,
       roadId: null,
+      subCategoryId: null,
       statusId: null,
       priorityId: null,
       pageSize: this.pageSizeOptions[0]
@@ -101,6 +104,7 @@ export class AppComponent implements OnInit {
       centerId,
       neighborhoodId,
       roadId,
+      subCategoryId,
       statusId,
       priorityId,
       pageSize
@@ -111,6 +115,7 @@ export class AppComponent implements OnInit {
       centerId: this.toNullableNumber(centerId),
       neighborhoodId: this.toNullableNumber(neighborhoodId),
       roadId: this.toNullableNumber(roadId),
+      subCategoryId: this.toNullableNumber(subCategoryId),
       statusId: this.toNullableNumber(statusId),
       priorityId: this.toNullableNumber(priorityId),
       pageNumber,
@@ -142,7 +147,8 @@ export class AppComponent implements OnInit {
         this.priorities = this.filterByType(items, this.lookupTypes.priority);
         this.statuses = this.filterByType(items, this.lookupTypes.status);
         this.mainCategories = this.filterByType(items, this.lookupTypes.mainCategory);
-        this.subCategories = this.filterByType(items, this.lookupTypes.subCategory);
+        this.subCategories = this.filterByType(items, this.lookupTypes.subCategory)
+          .filter(item => item.parentId === this.mediaMonitoringMainCategoryId);
       },
       error: () => {
         this.centers = [];
