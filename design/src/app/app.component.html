@@ -12,25 +12,50 @@
       </label>
       <label>
         البلدية
-        <input type="number" formControlName="centerId" placeholder="رقم البلدية" />
+        <select formControlName="centerId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of centers; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
       </label>
       <label>
         الحي
-        <input type="number" formControlName="neighborhoodId" placeholder="رقم الحي" />
+        <select formControlName="neighborhoodId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of neighborhoods; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
       </label>
       <label>
         الطريق
-        <input type="number" formControlName="roadId" placeholder="رقم الطريق" />
+        <select formControlName="roadId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of roads; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
       </label>
     </div>
     <div class="filters__row">
       <label>
         حالة البلاغ
-        <input type="number" formControlName="statusId" placeholder="رقم الحالة" />
+        <select formControlName="statusId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of statuses; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
       </label>
       <label>
         درجة الخطورة
-        <input type="number" formControlName="priorityId" placeholder="رقم درجة الخطورة" />
+        <select formControlName="priorityId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of priorities; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
       </label>
       <label>
         حجم الصفحة
