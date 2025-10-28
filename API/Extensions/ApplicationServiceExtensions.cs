@@ -17,6 +17,7 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
+            services.AddScoped<ILookupDataService, LookupQueryService>();
 
             services.AddDbContext<DataContext>(options =>
             {

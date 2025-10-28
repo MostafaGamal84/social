@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from './models/media-incident';
+import { LookupItem } from './models/lookup';
+import { LookupService } from './services/lookup.service';
 import { MediaIncidentService } from './services/media-incident.service';
 import { LoadingService } from './services/loading.service';
 
@@ -16,9 +18,27 @@ export class AppComponent implements OnInit {
   pagination: PaginatedResponse<MediaIncident>['pagination'] | null = null;
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
+  readonly lookupTypes = {
+    center: 'Center',
+    neighborhood: 'Neighborhood',
+    road: 'Road',
+    priority: 'PrioretyLevel',
+    status: 'IncidentsStatusType',
+    mainCategory: 'MainCategory',
+    subCategory: 'SubCategory'
+  } as const;
+
+  centers: LookupItem[] = [];
+  neighborhoods: LookupItem[] = [];
+  roads: LookupItem[] = [];
+  priorities: LookupItem[] = [];
+  statuses: LookupItem[] = [];
+  mainCategories: LookupItem[] = [];
+  subCategories: LookupItem[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
+    private readonly lookupService: LookupService,
     private readonly incidentsService: MediaIncidentService,
     private readonly loadingService: LoadingService
   ) {
@@ -34,6 +54,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadLookupItems();
     this.loadIncidents();
   }
 
@@ -52,6 +73,14 @@ export class AppComponent implements OnInit {
       pageSize: this.pageSizeOptions[0]
     });
     this.loadIncidents(1);
+  }
+
+  filterSubByMain(mainId: number | null): LookupItem[] {
+    if (!mainId) {
+      return this.subCategories;
+    }
+
+    return this.subCategories.filter(item => item.parentId === mainId);
   }
 
   changePage(page: number): void {
@@ -102,6 +131,39 @@ export class AppComponent implements OnInit {
         this.pagination = null;
       }
     });
+  }
+
+  private loadLookupItems(): void {
+    this.lookupService.getLookupItems().subscribe({
+      next: items => {
+        this.centers = this.filterByType(items, this.lookupTypes.center);
+        this.neighborhoods = this.filterByType(items, this.lookupTypes.neighborhood);
+        this.roads = this.filterByType(items, this.lookupTypes.road);
+        this.priorities = this.filterByType(items, this.lookupTypes.priority);
+        this.statuses = this.filterByType(items, this.lookupTypes.status);
+        this.mainCategories = this.filterByType(items, this.lookupTypes.mainCategory);
+        this.subCategories = this.filterByType(items, this.lookupTypes.subCategory);
+      },
+      error: () => {
+        this.centers = [];
+        this.neighborhoods = [];
+        this.roads = [];
+        this.priorities = [];
+        this.statuses = [];
+        this.mainCategories = [];
+        this.subCategories = [];
+      }
+    });
+  }
+
+  private filterByType(items: LookupItem[], type: string): LookupItem[] {
+    return items
+      .filter(item => item.lookupType === type)
+      .sort((a, b) => (a.lookupName ?? '').localeCompare(b.lookupName ?? '', undefined, { sensitivity: 'base' }));
+  }
+
+  trackByLookup(_: number, item: LookupItem): number {
+    return item.lookupId;
   }
 
   private toNullableNumber(value: unknown): number | null {
