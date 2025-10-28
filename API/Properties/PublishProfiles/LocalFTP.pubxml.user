@@ -1,0 +1,558 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAo6I83QtVa0qs9JMp7QbCEwAAAAACAAAAAAAQZgAAAAEAACAAAADOyFXE5vU4sdG0/4EYpG+ah8snhNP499bNN7e1sMKPiAAAAAAOgAAAAAIAACAAAAD4jW8iMLBq16fIc8dWGFlpW/mq8BP9xRqVhQYlW5embBAAAACbgquOT9JpPNlPMEj+CIH4QAAAACFCxr3FhC6LtBM8hMopAUPK/j1hdYwXdNOTdR2nUMulYTtdYk3ay0jNbZcvgyGRPOvUwG6gSF/8c/hyGiLQ4ZQ=</EncryptedPassword>
+    <_PublishTargetUrl>ftp://192.168.1.51:25</_PublishTargetUrl>
+    <History>True|2025-01-08T10:15:06.8798347Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="API.deps.json">
+      <publishTime>01/08/2025 13:14:05</publishTime>
+    </File>
+    <File Include="API.dll">
+      <publishTime>01/08/2025 13:14:04</publishTime>
+    </File>
+    <File Include="API.exe">
+      <publishTime>01/08/2025 13:14:04</publishTime>
+    </File>
+    <File Include="API.pdb">
+      <publishTime>01/08/2025 13:14:04</publishTime>
+    </File>
+    <File Include="API.runtimeconfig.json">
+      <publishTime>01/08/2025 11:26:10</publishTime>
+    </File>
+    <File Include="appsettings.Development.json">
+      <publishTime>10/24/2024 11:34:22</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>10/15/2024 14:07:37</publishTime>
+    </File>
+    <File Include="appsettings.Production.json">
+      <publishTime>10/24/2024 11:34:22</publishTime>
+    </File>
+    <File Include="AutoMapper.dll">
+      <publishTime>01/05/2022 18:27:54</publishTime>
+    </File>
+    <File Include="AutoMapper.Extensions.Microsoft.DependencyInjection.dll">
+      <publishTime>01/05/2022 18:57:34</publishTime>
+    </File>
+    <File Include="ca/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="Castle.Core.dll">
+      <publishTime>05/06/2020 14:02:04</publishTime>
+    </File>
+    <File Include="Data/SeedData/AttendStatue.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="Data/SeedData/Governorate.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="Data/SeedData/Nationality.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="Data/SeedData/PayStatue.json">
+      <publishTime>10/21/2024 11:17:44</publishTime>
+    </File>
+    <File Include="Data/SeedData/Permission.json">
+      <publishTime>11/05/2024 14:14:53</publishTime>
+    </File>
+    <File Include="Data/SeedData/quran.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="Data/SeedData/Subscribe.json">
+      <publishTime>04/06/2024 23:33:10</publishTime>
+    </File>
+    <File Include="Data/SeedData/SubscribeType.json">
+      <publishTime>04/06/2024 23:11:32</publishTime>
+    </File>
+    <File Include="Data/SeedData/Time.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="Data/SeedData/UserType.json">
+      <publishTime>03/30/2024 15:58:40</publishTime>
+    </File>
+    <File Include="de/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="es/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="fa/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="fr/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="Hangfire.AspNetCore.dll">
+      <publishTime>12/29/2023 10:36:02</publishTime>
+    </File>
+    <File Include="Hangfire.Core.dll">
+      <publishTime>12/29/2023 10:36:20</publishTime>
+    </File>
+    <File Include="Hangfire.NetCore.dll">
+      <publishTime>12/29/2023 10:36:00</publishTime>
+    </File>
+    <File Include="Hangfire.SqlServer.dll">
+      <publishTime>12/29/2023 10:36:22</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Authentication.JwtBearer.dll">
+      <publishTime>04/18/2022 15:18:52</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.Internal.dll">
+      <publishTime>04/18/2022 15:17:52</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Cryptography.KeyDerivation.dll">
+      <publishTime>04/18/2022 15:17:52</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll">
+      <publishTime>04/18/2022 15:19:06</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.JsonPatch.dll">
+      <publishTime>04/18/2022 15:14:46</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll">
+      <publishTime>04/18/2022 15:21:24</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.NodeServices.dll">
+      <publishTime>05/24/2022 23:28:40</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.SpaServices.dll">
+      <publishTime>05/24/2022 23:34:40</publishTime>
+    </File>
+    <File Include="Microsoft.AspNetCore.SpaServices.Extensions.dll">
+      <publishTime>05/18/2022 21:17:08</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>09/21/2021 02:59:32</publishTime>
+    </File>
+    <File Include="Microsoft.Data.Sqlite.dll">
+      <publishTime>04/18/2022 11:51:18</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>09/27/2022 01:57:02</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.dll">
+      <publishTime>09/27/2022 01:57:30</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Proxies.dll">
+      <publishTime>05/16/2022 18:55:00</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>09/27/2022 01:57:46</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Sqlite.dll">
+      <publishTime>04/18/2022 11:51:58</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.SqlServer.dll">
+      <publishTime>05/16/2022 18:55:14</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>01/14/2022 22:54:16</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>09/26/2022 20:42:22</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyModel.dll">
+      <publishTime>10/23/2021 02:47:38</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Identity.Core.dll">
+      <publishTime>04/18/2022 15:18:18</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Identity.Stores.dll">
+      <publishTime>04/18/2022 15:18:42</publishTime>
+    </File>
+    <File Include="Microsoft.Identity.Client.dll">
+      <publishTime>10/20/2020 00:51:12</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Abstractions.dll">
+      <publishTime>08/22/2024 07:16:14</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>08/22/2024 07:16:14</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Logging.dll">
+      <publishTime>08/22/2024 07:16:24</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.dll">
+      <publishTime>03/30/2021 22:46:46</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll">
+      <publishTime>03/30/2021 22:58:02</publishTime>
+    </File>
+    <File Include="Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>08/22/2024 07:16:24</publishTime>
+    </File>
+    <File Include="Microsoft.OpenApi.dll">
+      <publishTime>08/29/2020 23:14:12</publishTime>
+    </File>
+    <File Include="Microsoft.Win32.SystemEvents.dll">
+      <publishTime>11/15/2019 11:36:56</publishTime>
+    </File>
+    <File Include="nb/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.Bson.dll">
+      <publishTime>11/28/2018 02:10:18</publishTime>
+    </File>
+    <File Include="Newtonsoft.Json.dll">
+      <publishTime>03/17/2021 23:03:36</publishTime>
+    </File>
+    <File Include="nl/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="pt-BR/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="pt-PT/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="pt/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="runtimes/alpine-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-arm/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-arm64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-armel/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-mips64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-musl-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-s390x/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-x86/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/osx-arm64/native/libe_sqlite3.dylib">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/osx-x64/native/libe_sqlite3.dylib">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>11/15/2019 11:56:36</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll">
+      <publishTime>09/21/2021 02:59:34</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>10/20/2020 21:13:26</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>10/20/2020 21:13:26</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>10/20/2020 21:13:38</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 21:02:06</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll">
+      <publishTime>10/20/2020 21:13:26</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll">
+      <publishTime>11/15/2019 11:54:18</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>11/15/2019 11:54:20</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll">
+      <publishTime>11/15/2019 11:54:30</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll">
+      <publishTime>09/21/2021 02:59:34</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll">
+      <publishTime>11/15/2019 11:53:44</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>11/15/2019 11:53:46</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.batteries_v2.dll">
+      <publishTime>09/03/2021 21:04:58</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.core.dll">
+      <publishTime>09/03/2021 21:04:16</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.provider.e_sqlite3.dll">
+      <publishTime>09/03/2021 21:04:26</publishTime>
+    </File>
+    <File Include="sv/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>04/22/2022 17:09:30</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>04/22/2022 17:09:34</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>04/22/2022 17:09:58</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>11/15/2019 11:37:04</publishTime>
+    </File>
+    <File Include="System.Drawing.Common.dll">
+      <publishTime>09/18/2018 22:38:14</publishTime>
+    </File>
+    <File Include="System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>08/22/2024 07:16:24</publishTime>
+    </File>
+    <File Include="System.Runtime.Caching.dll">
+      <publishTime>11/15/2019 11:37:36</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>11/15/2019 11:37:42</publishTime>
+    </File>
+    <File Include="System.Security.Permissions.dll">
+      <publishTime>11/15/2019 11:56:44</publishTime>
+    </File>
+    <File Include="System.Windows.Extensions.dll">
+      <publishTime>11/15/2019 11:56:52</publishTime>
+    </File>
+    <File Include="tr-TR/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>01/08/2025 13:14:05</publishTime>
+    </File>
+    <File Include="wwwroot/119.59b4e735a78080d1.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/207.0e1d494482257535.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/308.f902306519ba492e.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/330.6a76ef3e3d553c94.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/333.a8d4be525dd5bbc8.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/371.c3f0d077cca0672d.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/381.f8c13aec73b758eb.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/3rdpartylicenses.txt">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/40.6331ee45fd4f6ade.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/487.ecc70101fef4ff27.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/50.c4b0fa372a3217f3.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/536.b8a7718973571cc5.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/569.4bc925c6fab68329.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/607.57d612cb4fad5310.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/636.aa3f0618b46c8e7e.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/707.0f8140edbf1bc274.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/720.fb2195a98a3bed51.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/73.714b1f94e9269457.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/766.197a924a69e446e1.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/77.8e7607250aa0ea06.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/778.e40638a2dacabc3d.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/807.b7c7c5b9f34199d3.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/884.33220db5cece3c0f.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/885.6d6ca85ed5a67c31.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/93.7156a862c9b8ebfd.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/976.1007fca6a61e7396.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Amiri-Bold.ttf">
+      <publishTime>09/05/2024 02:11:20</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Nahdi-Bold.ttf">
+      <publishTime>10/22/2024 14:21:24</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-Black.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-Bold.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-ExtraBold.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-ExtraLight.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-Light.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-Medium.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/Fonts/Tajawal-Regular.ttf">
+      <publishTime>04/04/2018 00:00:00</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/agialLogo.jpg">
+      <publishTime>10/12/2024 15:19:48</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/bg-image.jpg">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/delete.svg">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/error.svg">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/icon.svg">
+      <publishTime>11/02/2024 19:05:48</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/LogoAuth.png">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/success.svg">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/assets/images/warning.svg">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/bg-image.a84e77563796d91b.jpg">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/color.dae87a04d07ca92b.png">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/common.19154944c81e32d5.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-brands-400.5d18d427c08f12c3.ttf">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-brands-400.87587a681474fe69.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-regular-400.3ccdbd3d093918cb.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-regular-400.81482cd4d93fbfd4.ttf">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-solid-900.0b0cc8a6df2a4fc7.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-solid-900.69d3141ae4b2f721.ttf">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-v4compatibility.0e21f5b1dff572c4.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/fa-v4compatibility.2c070fd29a39f685.ttf">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/favicon.ico">
+      <publishTime>09/25/2024 10:35:58</publishTime>
+    </File>
+    <File Include="wwwroot/flags%402x.9e947ca1fe95c31b.webp">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/flags.b2133e947e8c730e.webp">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/globe%402x.974df6f829af5e5b.webp">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/globe.98e105ca81b63f37.webp">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/hue.8b1818380241e6ac.png">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/index.html">
+      <publishTime>01/06/2025 01:10:31</publishTime>
+    </File>
+    <File Include="wwwroot/Inter-italic.var.958a0b9742fb3ae8.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/Inter-roman.var.b2129c009ce46d43.woff2">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/main.71109774c99d1129.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/Nahdi-Bold.8d71501d48e92ab4.ttf">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/polyfills.532a501efeaf298c.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/runtime.7a7fd22f219fb398.js">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="wwwroot/styles.ad901fdf6af3440f.css">
+      <publishTime>01/06/2025 01:10:30</publishTime>
+    </File>
+    <File Include="zh-TW/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+    <File Include="zh/Hangfire.Core.resources.dll">
+      <publishTime>12/29/2023 10:35:24</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

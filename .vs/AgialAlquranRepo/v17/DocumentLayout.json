@@ -1,0 +1,395 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Private\\VersionTwoForAgial\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\controllers\\studentreportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\controllers\\studentreportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\dtos\\totalsummerydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\dtos\\totalsummerydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\helpers\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\helpers\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\dtos\\teacherhours\\teacherhoursredto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\dtos\\teacherhours\\teacherhoursredto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\data\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\data\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\entities\\teacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\entities\\teacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\entities\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\entities\\student.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\controllers\\teacherhourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\controllers\\teacherhourscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\entities\\report.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\entities\\report.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\controllers\\studentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\dtos\\student\\studentviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\dtos\\student\\studentviewdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\entities\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\entities\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\controllers\\circlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\controllers\\circlecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\irepository\\ibaserepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\irepository\\ibaserepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\repository\\baserepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\repository\\baserepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|d:\\private\\versiontwoforagial\\api\\extensions\\identityserviceextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99761719-983C-4835-8A0F-0A34B6D0193A}|API\\API.csproj|solutionrelative:api\\extensions\\identityserviceextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Student.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Student.cs",
+              "RelativeDocumentMoniker": "API\\Entities\\Student.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Student.cs",
+              "RelativeToolTip": "API\\Entities\\Student.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAA3wBIAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:48:08.948Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TotalSummeryDto.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\TotalSummeryDto.cs",
+              "RelativeDocumentMoniker": "API\\DTOs\\TotalSummeryDto.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\TotalSummeryDto.cs",
+              "RelativeToolTip": "API\\DTOs\\TotalSummeryDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAwAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:40:47.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AutoMapperProfiles.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Helpers\\AutoMapperProfiles.cs",
+              "RelativeDocumentMoniker": "API\\Helpers\\AutoMapperProfiles.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Helpers\\AutoMapperProfiles.cs",
+              "RelativeToolTip": "API\\Helpers\\AutoMapperProfiles.cs",
+              "ViewState": "AQIAAP4AAAAAAAAAAAAQwBsBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:42:48.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TeacherHoursReDto.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\TeacherHours\\TeacherHoursReDto.cs",
+              "RelativeDocumentMoniker": "API\\DTOs\\TeacherHours\\TeacherHoursReDto.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\TeacherHours\\TeacherHoursReDto.cs",
+              "RelativeToolTip": "API\\DTOs\\TeacherHours\\TeacherHoursReDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:39:14.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TeacherHoursController.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\TeacherHoursController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\TeacherHoursController.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\TeacherHoursController.cs",
+              "RelativeToolTip": "API\\Controllers\\TeacherHoursController.cs",
+              "ViewState": "AQIAAHgAAAAAAAAAAAAYwJ8AAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:22:23.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Report.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Report.cs",
+              "RelativeDocumentMoniker": "API\\Entities\\Report.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Report.cs",
+              "RelativeToolTip": "API\\Entities\\Report.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAA+wB4AAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T10:26:45.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "StudentReportController.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\StudentReportController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\StudentReportController.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\StudentReportController.cs",
+              "RelativeToolTip": "API\\Controllers\\StudentReportController.cs",
+              "ViewState": "AQIAAKEAAAAAAAAAAAAIwKcAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T10:26:42.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Teacher.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Teacher.cs",
+              "RelativeDocumentMoniker": "API\\Entities\\Teacher.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\Teacher.cs",
+              "RelativeToolTip": "API\\Entities\\Teacher.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:31:51.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DataContext.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Data\\DataContext.cs",
+              "RelativeDocumentMoniker": "API\\Data\\DataContext.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Data\\DataContext.cs",
+              "RelativeToolTip": "API\\Data\\DataContext.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAwwGoAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T12:32:04.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\TokenService.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Services\\TokenService.cs",
+              "RelativeToolTip": "API\\Services\\TokenService.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAQwB0AAABdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T07:38:44.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Interfaces\\ITokenService.cs",
+              "RelativeDocumentMoniker": "API\\Interfaces\\ITokenService.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Interfaces\\ITokenService.cs",
+              "RelativeToolTip": "API\\Interfaces\\ITokenService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T07:38:35.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-18T07:36:18.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "API\\appsettings.Development.json",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\appsettings.Development.json",
+              "RelativeToolTip": "API\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-18T12:25:09.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "StudentViewDto.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\Student\\StudentViewDto.cs",
+              "RelativeDocumentMoniker": "API\\DTOs\\Student\\StudentViewDto.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\DTOs\\Student\\StudentViewDto.cs",
+              "RelativeToolTip": "API\\DTOs\\Student\\StudentViewDto.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACUAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:14:03.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "API\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAPQAAAAAAAAAAADwv/cAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T10:08:13.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\AppUser.cs",
+              "RelativeDocumentMoniker": "API\\Entities\\AppUser.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Entities\\AppUser.cs",
+              "RelativeToolTip": "API\\Entities\\AppUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBQAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:48:31.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "API",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\API.csproj",
+              "RelativeDocumentMoniker": "API\\API.csproj",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\API.csproj",
+              "RelativeToolTip": "API\\API.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-18T09:22:40.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "StudentController.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\StudentController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\StudentController.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\StudentController.cs",
+              "RelativeToolTip": "API\\Controllers\\StudentController.cs",
+              "ViewState": "AQIAAJ8AAAAAAAAAAAAowOYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T08:43:29.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CircleController.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\CircleController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\CircleController.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Controllers\\CircleController.cs",
+              "RelativeToolTip": "API\\Controllers\\CircleController.cs",
+              "ViewState": "AQIAAMoAAAAAAAAAAADwv90AAAB6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:49:58.513Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "BaseRepo.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Repository\\BaseRepo.cs",
+              "RelativeDocumentMoniker": "API\\Repository\\BaseRepo.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Repository\\BaseRepo.cs",
+              "RelativeToolTip": "API\\Repository\\BaseRepo.cs",
+              "ViewState": "AQIAADoAAAAAAAAAAAA6wF0AAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:18:14.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IdentityServiceExtensions.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\Extensions\\IdentityServiceExtensions.cs",
+              "RelativeDocumentMoniker": "API\\Extensions\\IdentityServiceExtensions.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\Extensions\\IdentityServiceExtensions.cs",
+              "RelativeToolTip": "API\\Extensions\\IdentityServiceExtensions.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAYwCAAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T07:35:17.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IBaseRepo.cs",
+              "DocumentMoniker": "D:\\Private\\VersionTwoForAgial\\API\\IRepository\\IBaseRepo.cs",
+              "RelativeDocumentMoniker": "API\\IRepository\\IBaseRepo.cs",
+              "ToolTip": "D:\\Private\\VersionTwoForAgial\\API\\IRepository\\IBaseRepo.cs",
+              "RelativeToolTip": "API\\IRepository\\IBaseRepo.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T09:25:51.953Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
