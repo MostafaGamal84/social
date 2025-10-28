@@ -1,0 +1,48 @@
+<div class="assistant">
+  <button type="button" class="assistant__toggle" (click)="toggleChat()" aria-label="فتح أو إغلاق مساعد الدردشة">
+    <span class="assistant__icon" *ngIf="!isOpen">🤖</span>
+    <span class="assistant__icon" *ngIf="isOpen">✕</span>
+  </button>
+
+  <div class="chat" *ngIf="isOpen">
+    <header class="chat__header">
+      <div class="chat__title">
+        <h3>مساعد الاستعلامات</h3>
+        <p>اطلب البيانات وسيتم تجهيز الاستعلام تلقائياً.</p>
+      </div>
+      <button type="button" class="chat__close" (click)="toggleChat()" aria-label="إغلاق المساعد">✕</button>
+    </header>
+
+    <div class="chat__messages" #messagesContainer>
+      <div
+        *ngFor="let message of messages"
+        class="chat__message"
+        [ngClass]="[
+          'chat__message--' + message.role,
+          message.variant ? 'chat__message--' + message.variant : ''
+        ]"
+      >
+        <div class="chat__bubble">
+          <p>{{ message.text }}</p>
+          <span class="chat__time">{{ message.timestamp | date: 'shortTime' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <form class="chat__form" (ngSubmit)="sendMessage()">
+      <textarea
+        class="chat__input"
+        [(ngModel)]="userInput"
+        name="chatMessage"
+        rows="1"
+        placeholder="اكتب طلبك هنا..."
+        (keydown)="onTextareaKeyDown($event)"
+        [disabled]="isProcessing"
+      ></textarea>
+      <button type="submit" class="chat__send" [disabled]="!userInput.trim() || isProcessing">
+        <span *ngIf="!isProcessing">إرسال</span>
+        <span class="chat__spinner" *ngIf="isProcessing"></span>
+      </button>
+    </form>
+  </div>
+</div>
