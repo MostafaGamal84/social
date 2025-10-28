@@ -14,6 +14,5 @@ namespace UnitOfWork
         bool HasChanges();
         IMapper Mapper { get; }
         IFileRepository FileRepository { get; }
-        UserManager<AppUser> UserManager { get; }
     }
 }

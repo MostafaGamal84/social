@@ -14,22 +14,19 @@ namespace UnitOfWork
         private readonly IWebHostEnvironment _hostEnvironment;
 
         private Hashtable _repositories;
-        private readonly UserManager<AppUser> _userManager;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public UnitOfWork(DataContext context, IMapper mapper,UserManager<AppUser> userManager, IWebHostEnvironment hostEnvironment)
+        public UnitOfWork(DataContext context, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _hostEnvironment = hostEnvironment;
             _mapper = mapper;
             _context = context;
-             _userManager = userManager;
         }
 
         public IMapper Mapper => _mapper;
 
         public IFileRepository FileRepository => new FileRepository(_hostEnvironment);
-        public UserManager<AppUser> UserManager => _userManager;
 
 
 

@@ -18,29 +18,29 @@ namespace API.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
 
-        public string CreateToken(AppUser user)
+        public string CreateToken()
         {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email.ToString()),
-            };
+            // var claims = new List<Claim>
+            // {
+            //     new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+            //     new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),
+            //     new Claim(JwtRegisteredClaimNames.Email, user.Email.ToString()),
+            // };
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
+            // var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = creds
-            };
+            // var tokenDescriptor = new SecurityTokenDescriptor
+            // {
+            //     Subject = new ClaimsIdentity(claims),
+            //     Expires = DateTime.Now.AddDays(7),
+            //     SigningCredentials = creds
+            // };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            // var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            // var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            // return tokenHandler.WriteToken(token);
         }
     }
 }
