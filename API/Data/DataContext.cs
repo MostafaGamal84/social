@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace API.Data
 {
-  public class DataContext 
+  public class DataContext :DbContext
   {
     public DataContext(DbContextOptions options) : base(options)
     {
