@@ -1,0 +1,123 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from './models/media-incident';
+import { MediaIncidentService } from './services/media-incident.service';
+import { LoadingService } from './services/loading.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  form: FormGroup;
+  incidents: MediaIncident[] = [];
+  pagination: PaginatedResponse<MediaIncident>['pagination'] | null = null;
+  readonly loading$ = this.loadingService.loading$;
+  readonly pageSizeOptions = [10, 25, 50];
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly incidentsService: MediaIncidentService,
+    private readonly loadingService: LoadingService
+  ) {
+    this.form = this.fb.group({
+      search: [''],
+      centerId: [null],
+      neighborhoodId: [null],
+      roadId: [null],
+      statusId: [null],
+      priorityId: [null],
+      pageSize: [this.pageSizeOptions[0]]
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadIncidents();
+  }
+
+  applyFilters(): void {
+    this.loadIncidents(1);
+  }
+
+  clearFilters(): void {
+    this.form.patchValue({
+      search: '',
+      centerId: null,
+      neighborhoodId: null,
+      roadId: null,
+      statusId: null,
+      priorityId: null,
+      pageSize: this.pageSizeOptions[0]
+    });
+    this.loadIncidents(1);
+  }
+
+  changePage(page: number): void {
+    if (!this.pagination) {
+      return;
+    }
+
+    if (page < 1 || page > this.pagination.totalPages) {
+      return;
+    }
+
+    this.loadIncidents(page);
+  }
+
+  private buildFilters(pageNumber = 1): MediaIncidentFilters {
+    const {
+      search,
+      centerId,
+      neighborhoodId,
+      roadId,
+      statusId,
+      priorityId,
+      pageSize
+    } = this.form.value;
+
+    return {
+      search: search?.trim() || undefined,
+      centerId: this.toNullableNumber(centerId),
+      neighborhoodId: this.toNullableNumber(neighborhoodId),
+      roadId: this.toNullableNumber(roadId),
+      statusId: this.toNullableNumber(statusId),
+      priorityId: this.toNullableNumber(priorityId),
+      pageNumber,
+      pageSize: Number(pageSize) || this.pageSizeOptions[0]
+    };
+  }
+
+  private loadIncidents(pageNumber = 1): void {
+    const filters = this.buildFilters(pageNumber);
+
+    this.incidentsService.getIncidents(filters).subscribe({
+      next: response => {
+        this.incidents = response.data;
+        this.pagination = response.pagination;
+      },
+      error: () => {
+        this.incidents = [];
+        this.pagination = null;
+      }
+    });
+  }
+
+  private toNullableNumber(value: unknown): number | null {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    const parsed = Number(value);
+    return Number.isNaN(parsed) ? null : parsed;
+  }
+
+  trackByIncident(_: number, incident: MediaIncident): number {
+    return incident.incidentId;
+  }
+
+  getPriorityStyle(color: string | null | undefined) {
+    return color ? { '--priority-color': color } : null;
+  }
+}

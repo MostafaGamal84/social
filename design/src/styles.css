@@ -1,0 +1,26 @@
+:root {
+  color-scheme: light;
+  --surface: #f5f7fa;
+  --surface-contrast: #ffffff;
+  --border: #d9e1ec;
+  --primary: #1f7a8c;
+  --primary-dark: #15586b;
+  --text: #0f172a;
+  --muted: #64748b;
+  --danger: #dc2626;
+  font-family: 'Tajawal', 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+}
