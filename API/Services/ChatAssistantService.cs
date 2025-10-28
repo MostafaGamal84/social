@@ -89,20 +89,20 @@ namespace API.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errorMessage = ExtractOpenAiError(rawContent);
+                    var errorInfo = ExtractOpenAiError(rawContent);
                     _logger.LogError("OpenAI request failed with status {Status}: {Body}", response.StatusCode, rawContent);
 
                     var errorResponse = new ChatInterpretationResponse
                     {
                         Success = false,
                         ShouldSearch = false,
-                        Reply = "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً."
+                        Reply = GetFriendlyOpenAiErrorMessage(response.StatusCode, errorInfo)
                     };
 
                     errorResponse.Errors.Add("فشل طلب OpenAI.");
-                    if (!string.IsNullOrWhiteSpace(errorMessage))
+                    if (!string.IsNullOrWhiteSpace(errorInfo.Message))
                     {
-                        errorResponse.Errors.Add($"التفاصيل: {errorMessage}");
+                        errorResponse.Errors.Add($"التفاصيل: {errorInfo.Message}");
                     }
 
                     return errorResponse;
@@ -232,11 +232,11 @@ namespace API.Services
             return contentDocument.RootElement.Clone();
         }
 
-        private static string? ExtractOpenAiError(string rawResponse)
+        private static OpenAiErrorInfo ExtractOpenAiError(string rawResponse)
         {
             if (string.IsNullOrWhiteSpace(rawResponse))
             {
-                return null;
+                return default;
             }
 
             try
@@ -246,24 +246,70 @@ namespace API.Services
                 {
                     if (errorElement.ValueKind == JsonValueKind.String)
                     {
-                        return errorElement.GetString();
+                        return new OpenAiErrorInfo(errorElement.GetString(), null);
                     }
 
                     if (errorElement.ValueKind == JsonValueKind.Object)
                     {
+                        string? message = null;
+                        string? code = null;
+
                         if (errorElement.TryGetProperty("message", out var messageElement) && messageElement.ValueKind == JsonValueKind.String)
                         {
-                            return messageElement.GetString();
+                            message = messageElement.GetString();
+                        }
+
+                        if (errorElement.TryGetProperty("code", out var codeElement) && codeElement.ValueKind == JsonValueKind.String)
+                        {
+                            code = codeElement.GetString();
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(message) || !string.IsNullOrWhiteSpace(code))
+                        {
+                            return new OpenAiErrorInfo(message, code);
                         }
                     }
                 }
             }
             catch
             {
-                return null;
+                return default;
             }
 
-            return null;
+            return default;
+        }
+
+        private static string GetFriendlyOpenAiErrorMessage(System.Net.HttpStatusCode statusCode, OpenAiErrorInfo errorInfo)
+        {
+            if (statusCode == System.Net.HttpStatusCode.Unauthorized || string.Equals(errorInfo.Code, "invalid_api_key", StringComparison.OrdinalIgnoreCase))
+            {
+                return "تعذر التحقق من مفتاح OpenAI. يرجى التأكد من صحته أو طلب مفتاح جديد.";
+            }
+
+            if (statusCode == System.Net.HttpStatusCode.TooManyRequests || string.Equals(errorInfo.Code, "insufficient_quota", StringComparison.OrdinalIgnoreCase) || (errorInfo.Message?.IndexOf("quota", StringComparison.OrdinalIgnoreCase) >= 0))
+            {
+                return "تم تجاوز الحد المتاح من استخدام خدمة OpenAI. يرجى مراجعة خطة الاشتراك أو استخدام مفتاح مشروع فعّال.";
+            }
+
+            if (statusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                return "لا تملك الصلاحيات اللازمة للوصول إلى نموذج OpenAI المطلوب. تحقق من إعدادات المشروع أو الصلاحيات.";
+            }
+
+            return "حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً.";
+        }
+
+        private readonly struct OpenAiErrorInfo
+        {
+            public OpenAiErrorInfo(string? message, string? code)
+            {
+                Message = message;
+                Code = code;
+            }
+
+            public string? Message { get; }
+
+            public string? Code { get; }
         }
 
         private ChatInterpretationResponse BuildInterpretationResponse(JsonElement assistantRoot, ChatContextDto context)
