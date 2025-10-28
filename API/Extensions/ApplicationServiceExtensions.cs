@@ -1,6 +1,7 @@
 using API.Helpers;
 using API.Interfaces;
 using API.Repository;
+using API.Services;
 using UnitOfWork;
 
 
@@ -14,7 +15,9 @@ namespace API.Extensions
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            
+
+            services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
+
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseLazyLoadingProxies();

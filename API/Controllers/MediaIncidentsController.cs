@@ -1,10 +1,9 @@
+using System.Threading;
 using Api.Helpers;
 using API.DTOs;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -13,64 +12,17 @@ namespace API.Controllers
     [Route("api/media/incidents")]
     public class MediaIncidentsController : ControllerBase
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly IMediaIncidentDataService _mediaIncidentDataService;
 
-        public MediaIncidentsController(DataContext context, IMapper mapper)
+        public MediaIncidentsController(IMediaIncidentDataService mediaIncidentDataService)
         {
-            _context = context;
-            _mapper = mapper;
+            _mediaIncidentDataService = mediaIncidentDataService;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetMediaIncidents([FromQuery] MediaIncidentQueryParams queryParams)
+        public async Task<ActionResult> GetMediaIncidents([FromQuery] MediaIncidentQueryParams queryParams, CancellationToken cancellationToken)
         {
-            var incidentsQuery = _context.MediaIncidents.AsNoTracking();
-
-            if (queryParams.CenterId.HasValue)
-            {
-                incidentsQuery = incidentsQuery.Where(i => i.CenterId == queryParams.CenterId.Value);
-            }
-
-            if (queryParams.NeighborhoodId.HasValue)
-            {
-                incidentsQuery = incidentsQuery.Where(i => i.NeighborhoodId == queryParams.NeighborhoodId.Value);
-            }
-
-            if (queryParams.RoadId.HasValue)
-            {
-                incidentsQuery = incidentsQuery.Where(i => i.RoadId == queryParams.RoadId.Value);
-            }
-
-            if (queryParams.StatusId.HasValue)
-            {
-                incidentsQuery = incidentsQuery.Where(i => i.StatusId == queryParams.StatusId.Value);
-            }
-
-            if (queryParams.PriorityId.HasValue)
-            {
-                incidentsQuery = incidentsQuery.Where(i => i.PriorityId == queryParams.PriorityId.Value);
-            }
-
-            if (!string.IsNullOrWhiteSpace(queryParams.Search))
-            {
-                var term = $"%{queryParams.Search.Trim()}%";
-                incidentsQuery = incidentsQuery.Where(i =>
-                    (!string.IsNullOrEmpty(i.RefId) && EF.Functions.Like(i.RefId!, term)) ||
-                    (!string.IsNullOrEmpty(i.SubCategoryName) && EF.Functions.Like(i.SubCategoryName!, term)));
-            }
-
-            incidentsQuery = incidentsQuery
-                .OrderByDescending(i => i.CreatedAt)
-                .ThenByDescending(i => i.IncidentId);
-
-            var projectedQuery = incidentsQuery
-                .ProjectTo<MediaIncidentDto>(_mapper.ConfigurationProvider);
-
-            var pagedResult = await PagedList<MediaIncidentDto>.CreateAsync(
-                projectedQuery,
-                queryParams.PageNumber,
-                queryParams.PageSize);
+            var pagedResult = await _mediaIncidentDataService.GetMediaIncidentsAsync(queryParams, cancellationToken);
 
             var response = new
             {
