@@ -147,6 +147,12 @@ OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
                 parameters.Add(new SqlParameter("@RoadId", SqlDbType.Int) { Value = queryParams.RoadId.Value });
             }
 
+            if (queryParams.SubCategoryId.HasValue)
+            {
+                filters.Add("[SubCategoryId] = @SubCategoryId");
+                parameters.Add(new SqlParameter("@SubCategoryId", SqlDbType.Int) { Value = queryParams.SubCategoryId.Value });
+            }
+
             if (queryParams.StatusId.HasValue)
             {
                 filters.Add("[StatusId] = @StatusId");

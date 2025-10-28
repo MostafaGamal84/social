@@ -58,6 +58,15 @@
         </select>
       </label>
       <label>
+        التصنيف الفرعي
+        <select formControlName="subCategoryId">
+          <option [ngValue]="null">الكل</option>
+          <option *ngFor="let item of subCategories; trackBy: trackByLookup" [ngValue]="item.lookupId">
+            {{ item.lookupName || 'غير محدد' }}
+          </option>
+        </select>
+      </label>
+      <label>
         حجم الصفحة
         <select formControlName="pageSize">
           <option *ngFor="let option of pageSizeOptions" [value]="option">
