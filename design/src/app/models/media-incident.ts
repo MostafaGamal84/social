@@ -25,6 +25,7 @@ export interface MediaIncidentFilters {
   centerId?: number | null;
   neighborhoodId?: number | null;
   roadId?: number | null;
+  subCategoryId?: number | null;
   statusId?: number | null;
   priorityId?: number | null;
   search?: string | null;
