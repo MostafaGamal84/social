@@ -18,6 +18,8 @@ namespace API.Extensions
 
             services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
             services.AddScoped<ILookupDataService, LookupQueryService>();
+            services.Configure<OpenAiOptions>(config.GetSection("OpenAI"));
+            services.AddHttpClient<IChatAssistantService, ChatAssistantService>();
 
             services.AddDbContext<DataContext>(options =>
             {
