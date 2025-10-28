@@ -83,7 +83,7 @@ SELECT IncidentId,
        RefId,
        SubCategoryId,
        SubCategoryName,
-       QuantityValue,
+       Quantity AS QuantityValue,
        PriorityId,
        PriorityName,
        PriorityColor,
@@ -94,8 +94,8 @@ SELECT IncidentId,
        RoadId,
        RoadName,
        StatusId,
-       StatusName,
-       ImagePath,
+       CAST(NULL AS NVARCHAR(100)) AS StatusName,
+       RepresentativeImagePath AS ImagePath,
        CreatedAt,
        Lat,
        Lng
@@ -220,7 +220,23 @@ OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
         private static decimal? GetNullableDecimal(SqlDataReader reader, string columnName)
         {
             var ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? null : reader.GetDecimal(ordinal);
+            if (reader.IsDBNull(ordinal))
+            {
+                return null;
+            }
+
+            var value = reader.GetValue(ordinal);
+            return value switch
+            {
+                decimal dec => dec,
+                double dbl => (decimal)dbl,
+                float fl => (decimal)fl,
+                long l => l,
+                int i => i,
+                short s => s,
+                byte b => b,
+                _ => Convert.ToDecimal(value)
+            };
         }
 
         private static string? GetNullableString(SqlDataReader reader, string columnName)
