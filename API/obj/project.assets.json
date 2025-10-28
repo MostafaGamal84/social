@@ -8949,11 +8949,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Private\\Social\\api\\API.csproj",
+      "projectUniqueName": "D:\\Private\\Social\\social\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\Private\\Social\\api\\API.csproj",
+      "projectPath": "D:\\Private\\Social\\social\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Mostafa Gamal\\.nuget\\packages\\",
-      "outputPath": "D:\\Private\\Social\\api\\obj\\",
+      "outputPath": "D:\\Private\\Social\\social\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -8,7 +8,6 @@ internal class Program
   {
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddApplicationServices(builder.Configuration);
-    builder.Services.AddIdentityServices(builder.Configuration);
     // builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
     // builder.Services.AddHangfireServer();
 
@@ -33,9 +32,6 @@ internal class Program
     app.UseHttpsRedirection();
     app.UseRouting();
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-    app.UseAuthentication();
-    app.UseAuthorization();
-    // app.UseHangfireDashboard(pathMatch:"/HangFireDashboard");
     app.MapControllers();
     app.UseDefaultFiles();
     app.UseStaticFiles();

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Private\\Social\\API\\API.csproj": {}
+    "D:\\Private\\Social\\social\\API\\API.csproj": {}
   },
   "projects": {
-    "d:\\Private\\Social\\API\\API.csproj": {
+    "D:\\Private\\Social\\social\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Private\\Social\\API\\API.csproj",
+        "projectUniqueName": "D:\\Private\\Social\\social\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "d:\\Private\\Social\\API\\API.csproj",
+        "projectPath": "D:\\Private\\Social\\social\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Mostafa Gamal\\.nuget\\packages\\",
-        "outputPath": "d:\\Private\\Social\\API\\obj\\",
+        "outputPath": "D:\\Private\\Social\\social\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

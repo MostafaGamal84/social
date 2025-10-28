@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gRqnzzm8FTI=",
+  "dgSpecHash": "hqdzYtgXefk=",
   "success": true,
-  "projectFilePath": "d:\\Private\\Social\\API\\API.csproj",
+  "projectFilePath": "D:\\Private\\Social\\social\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mostafa Gamal\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\Mostafa Gamal\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
