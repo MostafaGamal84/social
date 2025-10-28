@@ -1,5 +1,7 @@
+using Api.Helpers;
 using API.DTOs;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -62,16 +64,17 @@ namespace API.Controllers
                 .OrderByDescending(i => i.CreatedAt)
                 .ThenByDescending(i => i.IncidentId);
 
-            var pagedResult = await PagedList<MediaIncidentView>.CreateAsync(
-                incidentsQuery,
+            var projectedQuery = incidentsQuery
+                .ProjectTo<MediaIncidentDto>(_mapper.ConfigurationProvider);
+
+            var pagedResult = await PagedList<MediaIncidentDto>.CreateAsync(
+                projectedQuery,
                 queryParams.PageNumber,
                 queryParams.PageSize);
 
-            var data = _mapper.Map<IEnumerable<MediaIncidentDto>>(pagedResult);
-
             var response = new
             {
-                data,
+                data = pagedResult,
                 pagination = new
                 {
                     currentPage = pagedResult.CurrentPage,
