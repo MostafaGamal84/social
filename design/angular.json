@@ -72,5 +72,8 @@
       }
     }
   },
-  "defaultProject": "media-monitoring"
+  "defaultProject": "media-monitoring",
+  "cli": {
+    "analytics": "b6656f7e-adc3-4576-b1fc-810e495f7e74"
+  }
 }
