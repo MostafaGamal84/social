@@ -35,7 +35,7 @@ internal class Program
     app.MapControllers();
     app.UseDefaultFiles();
     app.UseStaticFiles();
-
+    app.UseAuthorization();
 
 
 
