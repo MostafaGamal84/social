@@ -1,0 +1,92 @@
+########################
+# .NET / ASP.NET Core
+########################
+
+# Build outputs
+bin/
+obj/
+out/
+
+# Visual Studio cache/options
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# NuGet packages
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+
+# Compiled DLL/EXE
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+# Others
+appsettings.*.json
+!appsettings.json  # allow base config
+
+# Publish folder
+publish/
+wwwroot/dist/
+
+########################
+# Angular
+########################
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+tmp/
+temp/
+
+# Angular cache
+.angular/
+.angular/cache/
+
+# VS Code
+.vscode/
+.history/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+########################
+# OS / Misc
+########################
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+.env.local
+
+########################
+# JetBrains Rider / IntelliJ
+########################
+.idea/
+
+########################
+# Other
+########################
+*.swp
+*.swo
+*.bak
+*.tmp
