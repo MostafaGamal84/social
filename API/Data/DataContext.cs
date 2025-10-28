@@ -20,6 +20,7 @@ namespace API.Data
     }
     public DbSet<Post> posts { get; set; }
     public DbSet<Category> categories { get; set; }
+    public DbSet<MediaIncidentView> MediaIncidents => Set<MediaIncidentView>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
       builder.HasDefaultSchema("dbo");
@@ -30,6 +31,12 @@ namespace API.Data
       .WithOne(u => u.Category)
       .HasForeignKey(ur => ur.CategoryId)
       .IsRequired();
+
+      builder.Entity<MediaIncidentView>(e =>
+      {
+        e.HasNoKey();
+        e.ToView("vw_MediaMonitoringIncidents");
+      });
 
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

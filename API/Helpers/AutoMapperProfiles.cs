@@ -24,6 +24,8 @@ namespace API.Helpers
                   .ForMember(dest => dest.Type,
                   opt => opt.MapFrom(src => ((TypeEnum)src.Type).ToString()));
       CreateMap<Category, CategoryReturnDto>();
+      CreateMap<MediaIncidentView, MediaIncidentDto>()
+        .ForMember(dest => dest.RepresentativeImageUrl, opt => opt.MapFrom(src => src.ImagePath));
       CreateMap<DateTime, DateTime>().ConvertUsing(x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
 
     }
