@@ -1,0 +1,125 @@
+<div class="layout">
+  <header class="header">
+    <h1>منصة الرصد الإعلامي</h1>
+    <p>عرض وتتبع البلاغات القادمة من منصة ارتقاء للتصنيف الرئيسي "الرصد الإعلامي".</p>
+  </header>
+
+  <form class="filters" [formGroup]="form" (ngSubmit)="applyFilters()">
+    <div class="filters__row">
+      <label>
+        بحث
+        <input type="text" formControlName="search" placeholder="رقم البلاغ أو التصنيف الفرعي" />
+      </label>
+      <label>
+        البلدية
+        <input type="number" formControlName="centerId" placeholder="رقم البلدية" />
+      </label>
+      <label>
+        الحي
+        <input type="number" formControlName="neighborhoodId" placeholder="رقم الحي" />
+      </label>
+      <label>
+        الطريق
+        <input type="number" formControlName="roadId" placeholder="رقم الطريق" />
+      </label>
+    </div>
+    <div class="filters__row">
+      <label>
+        حالة البلاغ
+        <input type="number" formControlName="statusId" placeholder="رقم الحالة" />
+      </label>
+      <label>
+        درجة الخطورة
+        <input type="number" formControlName="priorityId" placeholder="رقم درجة الخطورة" />
+      </label>
+      <label>
+        حجم الصفحة
+        <select formControlName="pageSize">
+          <option *ngFor="let option of pageSizeOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </label>
+      <div class="filters__actions">
+        <button type="button" class="btn btn--ghost" (click)="clearFilters()">مسح</button>
+        <button type="submit" class="btn btn--primary">تطبيق</button>
+      </div>
+    </div>
+  </form>
+
+  <section class="results">
+    <div class="table-container" *ngIf="incidents.length; else emptyState">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>التصنيف الفرعي</th>
+            <th>الكمية</th>
+            <th>درجة الخطورة</th>
+            <th>البلدية</th>
+            <th>الحي</th>
+            <th>الطريق</th>
+            <th>الحالة</th>
+            <th>الصورة</th>
+            <th>تاريخ الإنشاء</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let incident of incidents; trackBy: trackByIncident">
+            <td data-label="#">{{ incident.refId || incident.incidentId }}</td>
+            <td data-label="التصنيف الفرعي">{{ incident.subCategoryName || '—' }}</td>
+            <td data-label="الكمية">{{ incident.quantityValue ?? '—' }}</td>
+            <td data-label="درجة الخطورة">
+              <span
+                class="priority-pill"
+                [ngClass]="{ 'priority-pill--missing': !incident.priorityName }"
+                [ngStyle]="getPriorityStyle(incident.priorityColor)"
+              >
+                {{ incident.priorityName || 'غير محدد' }}
+              </span>
+            </td>
+            <td data-label="البلدية">{{ incident.centerName || '—' }}</td>
+            <td data-label="الحي">{{ incident.neighborhoodName || '—' }}</td>
+            <td data-label="الطريق">{{ incident.roadName || '—' }}</td>
+            <td data-label="الحالة">{{ incident.statusName || '—' }}</td>
+            <td data-label="الصورة">
+              <img *ngIf="incident.representativeImageUrl; else noImage" [src]="incident.representativeImageUrl" alt="صورة البلاغ" />
+              <ng-template #noImage>
+                <span class="no-image">لا توجد صورة</span>
+              </ng-template>
+            </td>
+            <td data-label="تاريخ الإنشاء">{{ incident.createdAt | date: 'medium' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <h3>لا توجد بلاغات مطابقة للمعايير الحالية.</h3>
+        <p>يمكنك تعديل الفلاتر أو البحث لإظهار نتائج أخرى.</p>
+      </div>
+    </ng-template>
+
+    <nav class="pagination" *ngIf="pagination && pagination.totalCount > 0">
+      <button class="btn" [disabled]="pagination.currentPage === 1" (click)="changePage(pagination.currentPage - 1)">
+        السابق
+      </button>
+      <span>
+        صفحة {{ pagination.currentPage }} من {{ pagination.totalPages }} — إجمالي {{ pagination.totalCount }} بلاغ
+      </span>
+      <button
+        class="btn"
+        [disabled]="pagination.currentPage === pagination.totalPages"
+        (click)="changePage(pagination.currentPage + 1)"
+      >
+        التالي
+      </button>
+    </nav>
+  </section>
+
+  <div class="loading" *ngIf="loading$ | async">
+    <div class="spinner"></div>
+    <span>جاري التحميل...</span>
+  </div>
+</div>
