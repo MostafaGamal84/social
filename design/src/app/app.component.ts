@@ -6,6 +6,7 @@ import { LookupItem } from './models/lookup';
 import { LookupService } from './services/lookup.service';
 import { MediaIncidentService } from './services/media-incident.service';
 import { LoadingService } from './services/loading.service';
+import { ChatSearchResult } from './chat-assistant/chat-assistant.component';
 
 @Component({
   selector: 'app-root',
@@ -187,5 +188,23 @@ export class AppComponent implements OnInit {
 
   getPriorityStyle(color: string | null | undefined) {
     return color ? { '--priority-color': color } : null;
+  }
+
+  onChatSearchCompleted(result: ChatSearchResult): void {
+    const { filters, incidents, pagination } = result;
+
+    this.form.patchValue({
+      search: filters.search ?? '',
+      centerId: filters.centerId ?? null,
+      neighborhoodId: filters.neighborhoodId ?? null,
+      roadId: filters.roadId ?? null,
+      subCategoryId: filters.subCategoryId ?? null,
+      statusId: filters.statusId ?? null,
+      priorityId: filters.priorityId ?? null,
+      pageSize: filters.pageSize ?? this.pageSizeOptions[0]
+    });
+
+    this.incidents = incidents;
+    this.pagination = pagination ?? null;
   }
 }

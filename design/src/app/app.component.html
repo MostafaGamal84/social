@@ -157,3 +157,15 @@
     <span>جاري التحميل...</span>
   </div>
 </div>
+
+<app-chat-assistant
+  [centers]="centers"
+  [neighborhoods]="neighborhoods"
+  [roads]="roads"
+  [priorities]="priorities"
+  [statuses]="statuses"
+  [subCategories]="subCategories"
+  [pageSizeOptions]="pageSizeOptions"
+  [defaultPageSize]="pageSizeOptions[0]"
+  (searchCompleted)="onChatSearchCompleted($event)"
+></app-chat-assistant>
