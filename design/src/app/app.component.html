@@ -1,4 +1,26 @@
 <div class="layout">
+  <button
+    type="button"
+    class="filters-floating-toggle"
+    (click)="toggleFilters()"
+    [class.filters-floating-toggle--open]="isFiltersOpen"
+    [attr.aria-expanded]="isFiltersOpen"
+    aria-controls="filtersSidebar"
+  >
+    <span class="filters-floating-toggle__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M4 6H20M7 12H17M10 18H14"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+    <span class="filters-floating-toggle__label">الفلاتر</span>
+  </button>
+
   <header class="dashboard-header">
     <div class="dashboard-header__image dashboard-header__image--right">
       <img *ngIf="authorityLogoUrl; else authorityLogoPlaceholder" [src]="authorityLogoUrl" alt="شعار الهيئة" />
@@ -42,6 +64,7 @@
         </button>
       </div>
     </div>
+    <div class="toolbar__actions"></div>
     <div class="toolbar__meta">
       <div class="toolbar__metric">
         <span>إجمالي البلاغات</span>
@@ -54,83 +77,101 @@
     </div>
   </section>
 
-  <form class="filters" [formGroup]="form" (ngSubmit)="applyFilters()">
-    <div class="filters__row">
-      <label>
-        بحث
-        <input type="text" formControlName="search" placeholder="رقم البلاغ أو التصنيف الفرعي" />
-      </label>
-      <label>
-        البلدية
-        <select formControlName="centerId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of centers; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-      <label>
-        الحي
-        <select formControlName="neighborhoodId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of neighborhoods; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-      <label>
-        الطريق
-        <select formControlName="roadId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of roads; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-    </div>
+  <div class="filters-sidebar" [class.filters-sidebar--open]="isFiltersOpen" [attr.aria-hidden]="!isFiltersOpen">
+    <aside
+      class="filters-sidebar__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="filtersSidebarTitle"
+      id="filtersSidebar"
+    >
+      <header class="filters-sidebar__header">
+        <h2 class="filters-sidebar__title" id="filtersSidebarTitle">الفلاتر</h2>
+        <button type="button" class="filters-sidebar__close" (click)="closeFilters()" aria-label="إغلاق الفلاتر">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </header>
 
-    <div class="filters__row">
-      <label>
-        حالة البلاغ
-        <select formControlName="statusId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of statuses; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-      <label>
-        درجة الخطورة
-        <select formControlName="priorityId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of priorities; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-      <label>
-        التصنيف الفرعي
-        <select formControlName="subCategoryId">
-          <option [ngValue]="null">الكل</option>
-          <option *ngFor="let item of subCategories; trackBy: trackByLookup" [ngValue]="item.lookupId">
-            {{ item.lookupName || 'غير محدد' }}
-          </option>
-        </select>
-      </label>
-      <label>
-        حجم الصفحة
-        <select formControlName="pageSize">
-          <option *ngFor="let option of pageSizeOptions" [value]="option">
-            {{ option }}
-          </option>
-        </select>
-      </label>
-      <div class="filters__actions">
-        <button type="button" class="btn btn--ghost" (click)="clearFilters()">مسح</button>
-        <button type="submit" class="btn btn--primary">تطبيق</button>
-      </div>
-    </div>
-  </form>
+      <form class="filters" [formGroup]="form" (ngSubmit)="applyFilters()">
+        <div class="filters__row">
+          <label>
+            بحث
+            <input type="text" formControlName="search" placeholder="رقم البلاغ أو التصنيف الفرعي" />
+          </label>
+          <label>
+            البلدية
+            <select formControlName="centerId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of centers; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+          <label>
+            الحي
+            <select formControlName="neighborhoodId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of neighborhoods; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+          <label>
+            الطريق
+            <select formControlName="roadId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of roads; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="filters__row">
+          <label>
+            حالة البلاغ
+            <select formControlName="statusId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of statuses; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+          <label>
+            درجة الخطورة
+            <select formControlName="priorityId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of priorities; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+          <label>
+            التصنيف الفرعي
+            <select formControlName="subCategoryId">
+              <option [ngValue]="null">الكل</option>
+              <option *ngFor="let item of subCategories; trackBy: trackByLookup" [ngValue]="item.lookupId">
+                {{ item.lookupName || 'غير محدد' }}
+              </option>
+            </select>
+          </label>
+          <label>
+            حجم الصفحة
+            <select formControlName="pageSize">
+              <option *ngFor="let option of pageSizeOptions" [value]="option">
+                {{ option }}
+              </option>
+            </select>
+          </label>
+          <div class="filters__actions">
+            <button type="button" class="btn btn--ghost" (click)="clearFilters()">مسح</button>
+            <button type="submit" class="btn btn--primary">تطبيق</button>
+          </div>
+        </div>
+      </form>
+    </aside>
+    <div class="filters-sidebar__backdrop" (click)="closeFilters()" aria-hidden="true"></div>
+  </div>
 
   <section class="analytics">
     <div class="analytics__grid">

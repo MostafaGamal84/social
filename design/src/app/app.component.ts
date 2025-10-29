@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   readonly mediaMonitoringMainCategoryId = 34;
   authorityLogoUrl = '';
   irtaqaLogoUrl = '';
+  isFiltersOpen = false;
   readonly quickRanges = [
     { label: 'آخر ٧ أيام', value: 'week' },
     { label: 'آخر ٣٠ يوماً', value: 'month' },
@@ -112,6 +113,7 @@ export class AppComponent implements OnInit {
 
   applyFilters(): void {
     this.loadIncidents(1);
+    this.closeFilters();
   }
 
   clearFilters(): void {
@@ -126,6 +128,19 @@ export class AppComponent implements OnInit {
       pageSize: this.pageSizeOptions[0]
     });
     this.loadIncidents(1);
+    this.closeFilters();
+  }
+
+  toggleFilters(): void {
+    this.isFiltersOpen = !this.isFiltersOpen;
+  }
+
+  openFilters(): void {
+    this.isFiltersOpen = true;
+  }
+
+  closeFilters(): void {
+    this.isFiltersOpen = false;
   }
 
   filterSubByMain(mainId: number | null): LookupItem[] {
