@@ -149,6 +149,11 @@ export class AppComponent implements OnInit {
     return this.buildMonthlyTrend();
   }
 
+  get currentPageSize(): number {
+    const value = this.form.get('pageSize')?.value ?? this.pageSizeOptions[0];
+    return typeof value === 'number' ? value : Number(value) || this.pageSizeOptions[0];
+  }
+
   applyFilters(): void {
     this.loadIncidents(1);
     this.closeFilters();

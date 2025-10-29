@@ -9,6 +9,7 @@ interface ChatMessage {
   text: string;
   timestamp: Date;
   variant?: 'default' | 'status' | 'error';
+  includeInConversation?: boolean;
 }
 
 export interface ChatSearchResult {
@@ -39,6 +40,8 @@ export class ChatAssistantComponent {
   isOpen = false;
   isProcessing = false;
   userInput = '';
+  awaitingConfirmation = false;
+  private pendingSearchFilters: MediaIncidentFilters | null = null;
   messages: ChatMessage[] = [
     {
       role: 'assistant',
@@ -66,8 +69,20 @@ export class ChatAssistantComponent {
       return;
     }
 
-    this.addMessage({ role: 'user', text, timestamp: new Date() });
+    const userMessage: ChatMessage = {
+      role: 'user',
+      text,
+      timestamp: new Date(),
+      includeInConversation: !this.awaitingConfirmation
+    };
+    this.addMessage(userMessage);
     this.userInput = '';
+
+    if (this.awaitingConfirmation) {
+      this.handleConfirmationResponse(text);
+      return;
+    }
+
     this.processUserMessage();
   }
 
@@ -91,6 +106,8 @@ export class ChatAssistantComponent {
           timestamp: new Date(),
           variant: 'error'
         });
+        this.awaitingConfirmation = false;
+        this.pendingSearchFilters = null;
         this.isProcessing = false;
       }
     });
@@ -99,7 +116,8 @@ export class ChatAssistantComponent {
   private buildAssistantRequest(): ChatAssistantRequest {
     const messages: ChatAssistantMessage[] = this.messages
       .filter(message =>
-        message.role === 'user' || (message.role === 'assistant' && (!message.variant || message.variant === 'default'))
+        message.includeInConversation !== false &&
+        (message.role === 'user' || (message.role === 'assistant' && (!message.variant || message.variant === 'default')))
       )
       .map(message => ({ role: message.role, text: message.text }));
 
@@ -152,10 +170,79 @@ export class ChatAssistantComponent {
         pageSize:
           response.filters.pageSize ?? (this.defaultPageSize || this.pageSizeOptions[0] || 10)
       };
-      this.executeSearch(filters);
+      this.pendingSearchFilters = filters;
+      this.awaitingConfirmation = true;
+      this.isProcessing = false;
+      this.addMessage({
+        role: 'assistant',
+        text: 'هل ترغب بتنفيذ هذا الاستعلام؟ اكتب "نعم" للتأكيد أو "لا" للتعديل.',
+        timestamp: new Date(),
+        variant: 'status',
+        includeInConversation: false
+      });
     } else {
+      this.awaitingConfirmation = false;
+      this.pendingSearchFilters = null;
       this.isProcessing = false;
     }
+  }
+
+  private handleConfirmationResponse(text: string): void {
+    const normalized = text.trim().toLowerCase();
+    const affirmativeKeywords = ['نعم', 'ايوا', 'ايوه', 'yes', 'y', 'تمام', 'صح', 'اكيد'];
+    const negativeKeywords = ['لا', 'مو', 'كلا', 'no', 'غلط'];
+
+    const isAffirmative = affirmativeKeywords.some(keyword => normalized === keyword || normalized.startsWith(`${keyword} `));
+    const isNegative = negativeKeywords.some(keyword => normalized === keyword || normalized.startsWith(`${keyword} `));
+
+    if (!this.pendingSearchFilters) {
+      this.awaitingConfirmation = false;
+      this.addMessage({
+        role: 'assistant',
+        text: 'لا يوجد استعلام قيد الانتظار حالياً. يمكنك طلب بحث جديد متى شئت.',
+        timestamp: new Date(),
+        variant: 'status',
+        includeInConversation: false
+      });
+      return;
+    }
+
+    if (isAffirmative) {
+      const filters = this.pendingSearchFilters;
+      this.awaitingConfirmation = false;
+      this.pendingSearchFilters = null;
+      this.addMessage({
+        role: 'assistant',
+        text: 'حسناً، سأقوم بتنفيذ الاستعلام المطلوب الآن.',
+        timestamp: new Date(),
+        variant: 'status',
+        includeInConversation: false
+      });
+      this.isProcessing = true;
+      this.executeSearch(filters);
+      return;
+    }
+
+    if (isNegative) {
+      this.awaitingConfirmation = false;
+      this.pendingSearchFilters = null;
+      this.addMessage({
+        role: 'assistant',
+        text: 'تم إلغاء تنفيذ الاستعلام. أخبرني بأي تعديلات أو طلب جديد ترغب به.',
+        timestamp: new Date(),
+        variant: 'status',
+        includeInConversation: false
+      });
+      return;
+    }
+
+    this.addMessage({
+      role: 'assistant',
+      text: 'يرجى الرد بكلمة "نعم" لتأكيد الاستعلام أو "لا" لإلغائه.',
+      timestamp: new Date(),
+      variant: 'status',
+      includeInConversation: false
+    });
   }
 
   private executeSearch(filters: MediaIncidentFilters): void {
@@ -169,6 +256,8 @@ export class ChatAssistantComponent {
           incidents: response.data,
           pagination
         });
+        this.awaitingConfirmation = false;
+        this.pendingSearchFilters = null;
         this.isProcessing = false;
       },
       error: () => {
@@ -178,6 +267,8 @@ export class ChatAssistantComponent {
           timestamp: new Date(),
           variant: 'error'
         });
+        this.awaitingConfirmation = false;
+        this.pendingSearchFilters = null;
         this.isProcessing = false;
       }
     });
@@ -192,7 +283,10 @@ export class ChatAssistantComponent {
   }
 
   private addMessage(message: ChatMessage): void {
-    this.messages = [...this.messages, message];
+    this.messages = [
+      ...this.messages,
+      { ...message, includeInConversation: message.includeInConversation ?? true }
+    ];
     this.scrollToBottom();
   }
 
