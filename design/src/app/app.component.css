@@ -421,10 +421,16 @@
 
 .analytics__row--split {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   align-items: stretch;
+}
+
+.analytics__row--split > .analytics-card {
+  flex: 1 1 50%;
+  max-width: 50%;
+  min-width: 0;
 }
 
 .analytics {
@@ -1251,7 +1257,11 @@ tbody tr:hover {
   }
 
   .analytics__row--split {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .analytics__row--split > .analytics-card {
+    max-width: 100%;
   }
 
   .dashboard-header__content {
