@@ -30,6 +30,8 @@ export class AppComponent implements OnInit {
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
   readonly mediaMonitoringMainCategoryId = 34;
+  authorityLogoUrl = '';
+  irtaqaLogoUrl = '';
   readonly quickRanges = [
     { label: 'آخر ٧ أيام', value: 'week' },
     { label: 'آخر ٣٠ يوماً', value: 'month' },
@@ -46,7 +48,7 @@ export class AppComponent implements OnInit {
     subCategory: 'SubCategory'
   } as const;
   activeQuickRange: (typeof this.quickRanges)[number]['value'] = this.quickRanges[1].value;
-  private readonly palette = ['#1F7A8C', '#F0A500', '#7DCEA0', '#A569BD', '#E74C3C', '#16A34A', '#F97316'];
+  private readonly palette = ['#176C55', '#D8A233', '#B87224', '#3D856C', '#7EA063', '#5F7D4B', '#C49B3A'];
   private readonly resolvedKeywords = ['مغلق', 'منجز', 'مكتمل', 'تم', 'مقفلة', 'مغلقة', 'closed', 'resolved', 'complete', 'finished'].map(
     keyword => keyword.toLowerCase()
   );

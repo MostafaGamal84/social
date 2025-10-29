@@ -1,13 +1,29 @@
 <div class="layout">
   <header class="dashboard-header">
-    <div class="dashboard-header__title">
+    <div class="dashboard-header__image dashboard-header__image--right">
+      <img *ngIf="authorityLogoUrl; else authorityLogoPlaceholder" [src]="authorityLogoUrl" alt="شعار الهيئة" />
+      <ng-template #authorityLogoPlaceholder>
+        <div class="dashboard-header__image-placeholder">شعار الهيئة</div>
+      </ng-template>
+    </div>
+
+    <div class="dashboard-header__content">
       <span class="dashboard-header__subtitle">لوحة متابعة ملاحظات المخالفات وعرض التحسينات المقترحة</span>
       <h1>منصة الرصد الإعلامي</h1>
-      <p>متابعة فورية لملاحظات الرصد وتحليلها عبر مؤشرات واضحة وقابلة للتنفيذ.</p>
+      <p class="dashboard-header__description">
+        متابعة فورية لملاحظات الرصد وتحليلها عبر مؤشرات واضحة وقابلة للتنفيذ.
+      </p>
+      <div class="dashboard-header__actions">
+        <button type="button" class="btn btn--ghost">تصدير التقرير</button>
+        <button type="button" class="btn btn--primary">إضافة ملاحظة</button>
+      </div>
     </div>
-    <div class="dashboard-header__actions">
-      <button type="button" class="btn btn--ghost">تصدير التقرير</button>
-      <button type="button" class="btn btn--primary">إضافة ملاحظة</button>
+
+    <div class="dashboard-header__image dashboard-header__image--left">
+      <img *ngIf="irtaqaLogoUrl; else irtaqaLogoPlaceholder" [src]="irtaqaLogoUrl" alt="شعار ارتقاء" />
+      <ng-template #irtaqaLogoPlaceholder>
+        <div class="dashboard-header__image-placeholder">شعار ارتقاء</div>
+      </ng-template>
     </div>
   </header>
 
