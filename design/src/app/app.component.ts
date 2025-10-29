@@ -25,6 +25,12 @@ type TrendPoint = {
   normalized: number;
 };
 
+type TrendCoordinate = TrendPoint & {
+  x: number;
+  y: number;
+  textY: number;
+};
+
 type InteractiveChartKey = 'subCategory' | 'priority';
 
 @Component({
@@ -252,12 +258,104 @@ export class AppComponent implements OnInit {
     return label ? entries.find(entry => entry.label === label) ?? null : null;
   }
 
-  getTrendHeight(point: TrendPoint): number {
-    if (!point.value) {
-      return 0;
+  getTrendCoordinates(points: TrendPoint[]): TrendCoordinate[] {
+    return this.computeTrendCoordinates(points);
+  }
+
+  getTrendLinePath(coordinates: TrendCoordinate[]): string {
+    return this.buildTrendLinePath(coordinates);
+  }
+
+  getTrendAreaPath(coordinates: TrendCoordinate[]): string {
+    return this.buildTrendAreaPath(coordinates);
+  }
+
+  private computeTrendCoordinates(points: TrendPoint[]): TrendCoordinate[] {
+    if (!points.length) {
+      return [];
     }
 
-    return Math.max(point.normalized, 12);
+    if (points.length === 1) {
+      const y = this.getTrendCoordinateY(points[0]);
+
+      return [
+        {
+          ...points[0],
+          x: 50,
+          y,
+          textY: Math.max(y - 6, 6)
+        }
+      ];
+    }
+
+    const step = points.length > 1 ? 100 / (points.length - 1) : 100;
+
+    return points.map((point, index) => {
+      const y = this.getTrendCoordinateY(point);
+
+      return {
+        ...point,
+        x: this.toFixedNumber(index * step),
+        y,
+        textY: Math.max(y - 6, 6)
+      };
+    });
+  }
+
+  private buildTrendLinePath(coordinates: TrendCoordinate[]): string {
+    if (!coordinates.length) {
+      return '';
+    }
+
+    if (coordinates.length === 1) {
+      const [{ y }] = coordinates;
+      return `M 0 ${y} L 100 ${y}`;
+    }
+
+    const [first, ...rest] = coordinates;
+    const segments = rest.map(coordinate => `L ${coordinate.x} ${coordinate.y}`);
+
+    return [`M ${first.x} ${first.y}`, ...segments].join(' ');
+  }
+
+  private buildTrendAreaPath(coordinates: TrendCoordinate[]): string {
+    if (!coordinates.length) {
+      return '';
+    }
+
+    const baselineY = 100;
+
+    if (coordinates.length === 1) {
+      const [{ y }] = coordinates;
+      return `M 0 ${baselineY} L 0 ${y} L 100 ${y} L 100 ${baselineY} Z`;
+    }
+
+    const path = [`M ${coordinates[0].x} ${baselineY}`, `L ${coordinates[0].x} ${coordinates[0].y}`];
+
+    for (const coordinate of coordinates.slice(1)) {
+      path.push(`L ${coordinate.x} ${coordinate.y}`);
+    }
+
+    path.push(`L ${coordinates[coordinates.length - 1].x} ${baselineY}`, 'Z');
+
+    return path.join(' ');
+  }
+
+  private getTrendCoordinateY(point: TrendPoint): number {
+    if (!point.value) {
+      return 100;
+    }
+
+    const normalized = Math.max(Math.min(point.normalized || 0, 100), 0);
+    const adjusted = Math.max(normalized, 12);
+    const clamped = Math.min(adjusted, 100);
+
+    return this.toFixedNumber(100 - clamped);
+  }
+
+  private toFixedNumber(value: number, fractionDigits = 3): number {
+    const factor = 10 ** fractionDigits;
+    return Math.round(value * factor) / factor;
   }
 
   private buildFilters(pageNumber = 1): MediaIncidentFilters {
