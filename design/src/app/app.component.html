@@ -342,7 +342,10 @@
               <td data-label="درجة الخطورة">
                 <span
                   class="priority-pill"
-                  [ngClass]="{ 'priority-pill--missing': !incident.priorityName }"
+                  [ngClass]="{
+                    'priority-pill--missing': !incident.priorityName,
+                    'priority-pill--alert': isAlertPriority(incident.priorityName)
+                  }"
                   [ngStyle]="getPriorityStyle(incident.priorityColor)"
                 >
                   {{ incident.priorityName || 'غير محدد' }}
@@ -437,7 +440,10 @@
             </span>
             <span
               class="priority-pill incident-details__priority"
-              [ngClass]="{ 'priority-pill--missing': !incident.priorityName }"
+              [ngClass]="{
+                'priority-pill--missing': !incident.priorityName,
+                'priority-pill--alert': isAlertPriority(incident.priorityName)
+              }"
               [ngStyle]="getPriorityStyle(incident.priorityColor)"
             >
               {{ incident.priorityName || 'غير محدد' }}

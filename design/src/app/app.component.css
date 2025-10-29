@@ -806,6 +806,22 @@ tbody tr:hover {
   background: var(--priority-color, var(--accent));
 }
 
+.priority-pill--alert::before {
+  animation: priority-alert-blink 1.2s ease-in-out infinite;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.15);
+}
+
+@keyframes priority-alert-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;
