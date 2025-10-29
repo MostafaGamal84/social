@@ -320,7 +320,6 @@
             <th>البلدية</th>
             <th>الحي</th>
             <th>الطريق</th>
-            <th>مصدر البلاغ</th>
             <th>الحالة</th>
             <th>الصورة</th>
             <th>تاريخ الإنشاء</th>
@@ -352,7 +351,6 @@
               <td data-label="البلدية">{{ incident.centerName || '—' }}</td>
               <td data-label="الحي">{{ incident.neighborhoodName || '—' }}</td>
               <td data-label="الطريق">{{ incident.roadName || '—' }}</td>
-              <td data-label="مصدر البلاغ">{{ incident.sourceOfIncident || '—' }}</td>
               <td data-label="الحالة">
                 <span
                   class="status-pill"
@@ -484,18 +482,7 @@
               <dt>رقم البلاغ الداخلي</dt>
               <dd>{{ incident.incidentId }}</dd>
             </div>
-            <div class="incident-details__item">
-              <dt>المرجع</dt>
-              <dd>{{ incident.refId || '—' }}</dd>
-            </div>
-            <div class="incident-details__item">
-              <dt>مصدر البلاغ</dt>
-              <dd>{{ incident.sourceOfIncident || '—' }}</dd>
-            </div>
-            <div class="incident-details__item">
-              <dt>الحالة (بالإنجليزية)</dt>
-              <dd>{{ incident.statusEnglishName || '—' }}</dd>
-            </div>
+           
           </dl>
         </section>
       </div>

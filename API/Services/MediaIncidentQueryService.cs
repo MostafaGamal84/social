@@ -259,12 +259,31 @@ OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
             };
         }
 
-        private static string? GetNullableString(SqlDataReader reader, string columnName)
-        {
-            var ordinal = reader.GetOrdinal(columnName);
-            return reader.IsDBNull(ordinal) ? null : reader.GetString(ordinal);
-        }
+       private static string? GetNullableString(SqlDataReader reader, string columnName)
+{
+    var ordinal = reader.GetOrdinal(columnName);
+    if (reader.IsDBNull(ordinal)) return null;
 
+    var value = reader.GetValue(ordinal);
+
+    // حوّل أي نوع إلى string بأمان
+    return value switch
+    {
+        string s   => s,
+        char c     => c.ToString(),
+        int i      => i.ToString(),
+        long l     => l.ToString(),
+        short sh   => sh.ToString(),
+        byte b     => b.ToString(),
+        bool bo    => bo ? "1" : "0",
+        decimal d  => d.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        double db  => db.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        float f    => f.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        DateTime dt=> dt.ToString("yyyy-MM-dd HH:mm:ss"),
+        byte[] arr => Convert.ToBase64String(arr),
+        _          => value.ToString()
+    };
+}
         private static double? GetNullableDouble(SqlDataReader reader, string columnName)
         {
             var ordinal = reader.GetOrdinal(columnName);
