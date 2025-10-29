@@ -419,6 +419,14 @@
   gap: 1.5rem;
 }
 
+.analytics__row--split {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
 .analytics {
   display: flex;
   flex-direction: column;
@@ -472,6 +480,7 @@
 .chart__visual {
   width: 180px;
   height: 180px;
+  flex: 0 0 auto;
   border-radius: 50%;
   background: conic-gradient(#d9cfa8 0deg, #f0e7c2 360deg);
   border: 14px solid rgba(244, 241, 230, 0.85);
@@ -1131,6 +1140,7 @@ tbody tr:hover {
   .chart__visual {
     width: 160px;
     height: 160px;
+    flex: 0 0 auto;
   }
 }
 
