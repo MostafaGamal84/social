@@ -422,7 +422,7 @@
 .analytics__row--split {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
   align-items: stretch;
 }
@@ -1173,6 +1173,10 @@ tbody tr:hover {
       'left';
     justify-items: center;
     text-align: center;
+  }
+
+  .analytics__row--split {
+    grid-template-columns: 1fr;
   }
 
   .dashboard-header__content {
