@@ -18,12 +18,14 @@ namespace API.Services
 
         private readonly string _connectionString;
         private readonly ILogger<MediaIncidentQueryService> _logger;
+        private readonly IIncidentAlertService _incidentAlertService;
 
-        public MediaIncidentQueryService(IConfiguration configuration, ILogger<MediaIncidentQueryService> logger)
+        public MediaIncidentQueryService(IConfiguration configuration, ILogger<MediaIncidentQueryService> logger, IIncidentAlertService incidentAlertService)
         {
             _connectionString = configuration.GetConnectionString("MediaIncidentConnection")
                 ?? throw new InvalidOperationException("Connection string 'MediaIncidentConnection' is not configured.");
             _logger = logger;
+            _incidentAlertService = incidentAlertService ?? throw new ArgumentNullException(nameof(incidentAlertService));
         }
 
         public async Task<PagedList<MediaIncidentDto>> GetMediaIncidentsAsync(MediaIncidentQueryParams queryParams, CancellationToken cancellationToken = default)
@@ -48,6 +50,8 @@ namespace API.Services
                 }
 
                 var items = await ExecuteQueryAsync(connection, whereClause, filterParameters, queryParams, cancellationToken).ConfigureAwait(false);
+
+                await _incidentAlertService.NotifyCriticalIncidentsAsync(items, cancellationToken).ConfigureAwait(false);
 
                 return new PagedList<MediaIncidentDto>(items, totalCount, queryParams.PageNumber, queryParams.PageSize);
             }
