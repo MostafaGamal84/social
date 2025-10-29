@@ -6,6 +6,11 @@ namespace API.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(IEnumerable<string> recipients, string subject, string body, CancellationToken cancellationToken = default);
+        Task SendEmailAsync(
+            IEnumerable<string> recipients,
+            string subject,
+            string body,
+            bool isBodyHtml = false,
+            CancellationToken cancellationToken = default);
     }
 }
