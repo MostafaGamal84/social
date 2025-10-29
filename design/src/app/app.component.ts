@@ -305,6 +305,15 @@ export class AppComponent implements OnInit {
     return color ? { '--priority-color': color } : null;
   }
 
+  isAlertPriority(name: string | null | undefined): boolean {
+    if (!name) {
+      return false;
+    }
+
+    const normalized = name.trim();
+    return normalized === 'خطر' || normalized === 'حرج';
+  }
+
   getStatusStyle(color: string | null | undefined) {
     return color ? { '--status-color': color } : null;
   }
