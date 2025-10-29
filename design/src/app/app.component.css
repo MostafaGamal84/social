@@ -416,7 +416,7 @@
 .analytics__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  gap: 3.5rem;
 }
 
 .analytics__row--split {
@@ -1256,6 +1256,25 @@ tbody tr:hover {
   }
 
   .filters__row {
+    grid-template-columns: 1fr;
+  }
+}
+.analytics__row--split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+/* Kill the full-width span inside the split row */
+.analytics__row--split .analytics-card--trend,
+.analytics__row--split .analytics-card--chart-wide {
+  grid-column: span 1 !important;
+}
+
+/* Stack on small screens */
+@media (max-width: 992px) {
+  .analytics__row--split {
     grid-template-columns: 1fr;
   }
 }
