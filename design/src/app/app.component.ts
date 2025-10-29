@@ -464,6 +464,10 @@ export class AppComponent implements OnInit {
     this.selectedIncident = null;
   }
 
+  getErtiqaaIncidentUrl(incident: MediaIncident): string {
+    return `http://144.76.146.61:9883/incident/details/${incident.incidentId}`;
+  }
+
   onIncidentKeydown(event: KeyboardEvent, incident: MediaIncident): void {
     if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
       event.preventDefault();
