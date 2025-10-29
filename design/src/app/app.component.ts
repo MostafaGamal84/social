@@ -308,8 +308,12 @@ export class AppComponent implements OnInit {
     }
 
     if (coordinates.length === 1) {
-      const [{ y }] = coordinates;
-      return `M 0 ${y} L 100 ${y}`;
+      const [{ x, y }] = coordinates;
+      const halfSpan = 8;
+      const startX = this.toFixedNumber(Math.max(x - halfSpan, 0));
+      const endX = this.toFixedNumber(Math.min(x + halfSpan, 100));
+
+      return `M ${startX} ${y} L ${endX} ${y}`;
     }
 
     const [first, ...rest] = coordinates;
@@ -326,8 +330,12 @@ export class AppComponent implements OnInit {
     const baselineY = 100;
 
     if (coordinates.length === 1) {
-      const [{ y }] = coordinates;
-      return `M 0 ${baselineY} L 0 ${y} L 100 ${y} L 100 ${baselineY} Z`;
+      const [{ x, y }] = coordinates;
+      const halfSpan = 8;
+      const startX = this.toFixedNumber(Math.max(x - halfSpan, 0));
+      const endX = this.toFixedNumber(Math.min(x + halfSpan, 100));
+
+      return `M ${startX} ${baselineY} L ${startX} ${y} L ${endX} ${y} L ${endX} ${baselineY} Z`;
     }
 
     const path = [`M ${coordinates[0].x} ${baselineY}`, `L ${coordinates[0].x} ${coordinates[0].y}`];
