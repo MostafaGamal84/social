@@ -47,18 +47,16 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.IncidentNotification", b =>
                 {
-                    b.Property<int>("IncidentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IncidentId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("SentAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("IncidentId");
-
-                    b.ToTable("IncidentNotifications", "dbo");
+                    b.ToTable("IncidentNotification", "dbo");
                 });
 
             modelBuilder.Entity("API.Entities.MediaIncidentView", b =>
@@ -120,9 +118,6 @@ namespace API.Migrations
                     b.Property<string>("SourceOfIncident")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("StatusArabicName")
                         .HasColumnType("nvarchar(max)");
 
@@ -131,6 +126,9 @@ namespace API.Migrations
 
                     b.Property<string>("StatusEnglishName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusName")
                         .HasColumnType("nvarchar(max)");
