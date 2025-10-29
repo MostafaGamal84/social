@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
   readonly mediaMonitoringMainCategoryId = 34;
-  authorityLogoUrl = '';
-  irtaqaLogoUrl = '';
+  authorityLogoUrl = '../assets/images/authority-logo.png';
+  irtaqaLogoUrl = '../assets/images/ertiqaa-logo.png';
   isFiltersOpen = false;
   readonly quickRanges = [
     { label: 'آخر ٧ أيام', value: 'week' },
