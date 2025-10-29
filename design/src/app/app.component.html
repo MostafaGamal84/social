@@ -168,7 +168,7 @@
 
   <section class="analytics">
     <div class="analytics__grid">
-      <article class="analytics-card analytics-card--chart">
+      <article class="analytics-card analytics-card--chart analytics-card--chart-wide">
         <header class="analytics-card__header">
           <div>
             <h2>مواضيع البلاغات</h2>
@@ -256,6 +256,51 @@
           </li>
         </ul>
         <ng-template #emptyStatuses>
+          <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
+        </ng-template>
+      </article>
+
+      <article class="analytics-card analytics-card--chart">
+        <header class="analytics-card__header">
+          <div>
+            <h2>توزيع درجات الخطورة</h2>
+            <p>مستويات الخطورة للبلاغات الحالية.</p>
+          </div>
+        </header>
+        <div class="chart" *ngIf="priorityBreakdown.length; else emptyPriorities">
+          <div class="chart__visual" [style.background-image]="buildConicGradient(priorityBreakdown)"></div>
+          <ul class="chart__legend">
+            <li *ngFor="let entry of priorityBreakdown">
+              <span class="chart__bullet" [style.background]="entry.color"></span>
+              <span class="chart__label">{{ entry.label }}</span>
+              <span class="chart__value">{{ entry.value }}</span>
+              <span class="chart__percentage">{{ entry.percentage }}%</span>
+            </li>
+          </ul>
+        </div>
+        <ng-template #emptyPriorities>
+          <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
+        </ng-template>
+      </article>
+
+      <article class="analytics-card analytics-card--trend">
+        <header class="analytics-card__header">
+          <div>
+            <h2>اتجاه البلاغات الزمني</h2>
+            <p>توزيع البلاغات على مدار الأشهر الأخيرة.</p>
+          </div>
+        </header>
+        <div class="trend" *ngIf="monthlyTrend.length; else emptyTrend">
+          <div class="trend__chart">
+            <div class="trend__bar" *ngFor="let point of monthlyTrend" [style.height.%]="getTrendHeight(point)">
+              <span class="trend__value" *ngIf="point.value">{{ point.value }}</span>
+            </div>
+          </div>
+          <div class="trend__labels">
+            <span *ngFor="let point of monthlyTrend">{{ point.label }}</span>
+          </div>
+        </div>
+        <ng-template #emptyTrend>
           <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
         </ng-template>
       </article>
