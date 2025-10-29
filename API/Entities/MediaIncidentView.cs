@@ -4,6 +4,8 @@ namespace API.Entities
     {
         public int IncidentId { get; set; }
         public string? RefId { get; set; }
+        public int? MainCategoryId { get; set; }
+        public string? MainCategoryName { get; set; }
         public int? SubCategoryId { get; set; }
         public string? SubCategoryName { get; set; }
         public decimal? QuantityValue { get; set; }
@@ -18,6 +20,10 @@ namespace API.Entities
         public string? RoadName { get; set; }
         public int? StatusId { get; set; }
         public string? StatusName { get; set; }
+        public string? StatusArabicName { get; set; }
+        public string? StatusEnglishName { get; set; }
+        public string? StatusColor { get; set; }
+        public string? SourceOfIncident { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? ImagePath { get; set; }
         public double? Lat { get; set; }

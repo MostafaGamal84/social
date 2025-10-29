@@ -1,6 +1,8 @@
 export interface MediaIncident {
   incidentId: number;
   refId: string | null;
+  mainCategoryId: number | null;
+  mainCategoryName: string | null;
   subCategoryId: number | null;
   subCategoryName: string | null;
   quantityValue: number | null;
@@ -15,6 +17,10 @@ export interface MediaIncident {
   roadName: string | null;
   statusId: number | null;
   statusName: string | null;
+  statusArabicName: string | null;
+  statusEnglishName: string | null;
+  statusColor: string | null;
+  sourceOfIncident: string | null;
   representativeImageUrl: string | null;
   createdAt: string;
   lat: number | null;
