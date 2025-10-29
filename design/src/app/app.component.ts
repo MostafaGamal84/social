@@ -18,6 +18,12 @@ type DistributionView = DistributionSegment & {
   percentage: number;
 };
 
+type TrendPoint = {
+  label: string;
+  value: number;
+  normalized: number;
+};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -111,6 +117,16 @@ export class AppComponent implements OnInit {
     return this.toDistributionView(this.getDistribution(incident => incident.statusName));
   }
 
+  get priorityBreakdown(): DistributionView[] {
+    return this.toDistributionView(
+      this.getDistribution(incident => incident.priorityName, incident => incident.priorityColor)
+    );
+  }
+
+  get monthlyTrend(): TrendPoint[] {
+    return this.buildMonthlyTrend();
+  }
+
   applyFilters(): void {
     this.loadIncidents(1);
     this.closeFilters();
@@ -182,6 +198,14 @@ export class AppComponent implements OnInit {
     });
 
     return `conic-gradient(${segments.join(', ')})`;
+  }
+
+  getTrendHeight(point: TrendPoint): number {
+    if (!point.value) {
+      return 0;
+    }
+
+    return Math.max(point.normalized, 12);
   }
 
   private buildFilters(pageNumber = 1): MediaIncidentFilters {
@@ -343,6 +367,62 @@ export class AppComponent implements OnInit {
     return entries.map(entry => ({
       ...entry,
       percentage: Math.round((entry.value / total) * 100)
+    }));
+  }
+
+  private buildMonthlyTrend(limit = 6): TrendPoint[] {
+    if (!this.incidents.length) {
+      return [];
+    }
+
+    const monthly = new Map<string, { count: number; monthStart: Date }>();
+
+    for (const incident of this.incidents) {
+      if (!incident.createdAt) {
+        continue;
+      }
+
+      const createdAt = new Date(incident.createdAt);
+
+      if (Number.isNaN(createdAt.getTime())) {
+        continue;
+      }
+
+      const monthStart = new Date(createdAt.getFullYear(), createdAt.getMonth(), 1);
+      const key = monthStart.toISOString();
+      const existing = monthly.get(key);
+
+      if (existing) {
+        existing.count += 1;
+      } else {
+        monthly.set(key, { count: 1, monthStart });
+      }
+    }
+
+    const sorted = Array.from(monthly.values()).sort(
+      (a, b) => a.monthStart.getTime() - b.monthStart.getTime()
+    );
+
+    if (!sorted.length) {
+      return [];
+    }
+
+    const limited = limit > 0 ? sorted.slice(-limit) : sorted;
+    const formatter = new Intl.DateTimeFormat('ar', { month: 'short', year: '2-digit' });
+    const points = limited.map(item => ({
+      label: formatter.format(item.monthStart),
+      value: item.count,
+      normalized: 0
+    }));
+    const max = points.reduce((currentMax, point) => Math.max(currentMax, point.value), 0);
+
+    if (!max) {
+      return points;
+    }
+
+    return points.map(point => ({
+      ...point,
+      normalized: Math.round((point.value / max) * 100)
     }));
   }
 
