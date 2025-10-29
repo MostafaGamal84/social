@@ -150,7 +150,7 @@ export class ChatAssistantComponent {
         ...response.filters,
         pageNumber: response.filters.pageNumber ?? 1,
         pageSize:
-          response.filters.pageSize ?? this.defaultPageSize || this.pageSizeOptions[0] || 10
+          response.filters.pageSize ?? (this.defaultPageSize || this.pageSizeOptions[0] || 10)
       };
       this.executeSearch(filters);
     } else {

@@ -392,9 +392,15 @@ namespace API.Services
             }
 
             response.Filters = filters;
-            response.Success = response.ShouldSearch && (filters.Search != null || filters.CenterId != null || filters.NeighborhoodId != null || filters.RoadId != null ||
-                                 filters.SubCategoryId != null || filters.StatusId != null || filters.PriorityId != null || filters.PageSize.HasValue);
-
+          response.Success = response.ShouldSearch &&
+    (filters.Search != null ||
+     filters.CenterId != null ||
+     filters.NeighborhoodId != null ||
+     filters.RoadId != null ||
+     filters.SubCategoryId != null ||
+     filters.StatusId != null ||
+     filters.PriorityId != null ||
+     filters.PageSize > 0);
             if (response.ShouldSearch && !response.Success)
             {
                 response.Errors.Add("لم يتمكن النظام من تحديد أي معيار صالح لتنفيذ الاستعلام.");
