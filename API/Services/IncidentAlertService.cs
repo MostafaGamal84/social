@@ -199,7 +199,6 @@ namespace API.Services
             }
 
             AddRow("رقم البلاغ", incident.IncidentId.ToString(CultureInfo.InvariantCulture));
-            AddRow("الرقم المرجعي", incident.RefId);
             AddRow("درجة الأولوية", incident.PriorityName);
             AddRow("التصنيف الرئيسي", incident.MainCategoryName);
             AddRow("التصنيف الفرعي", incident.SubCategoryName);
@@ -208,7 +207,6 @@ namespace API.Services
             AddRow("المركز", incident.CenterName);
             AddRow("الحي", incident.NeighborhoodName);
             AddRow("الطريق", incident.RoadName);
-            AddRow("مصدر البلاغ", incident.SourceOfIncident);
             AddRow("تاريخ الإنشاء (UTC)", incident.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 
             if (incident.Lat.HasValue && incident.Lng.HasValue)
