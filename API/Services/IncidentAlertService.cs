@@ -48,7 +48,7 @@ namespace API.Services
 
             foreach (var incident in incidents)
             {
-                if (!IsAlertPriority(incident.PriorityName))
+                if (!IsAlertPriority(incident.PriorityName) || !IsNewStatus(incident))
                 {
                     continue;
                 }
@@ -85,6 +85,25 @@ namespace API.Services
                 || normalized.Equals("حرج", StringComparison.OrdinalIgnoreCase)
                 || normalized.Equals("Danger", StringComparison.OrdinalIgnoreCase)
                 || normalized.Equals("Critical", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsNewStatus(MediaIncidentDto incident)
+        {
+            return IsNewStatusName(incident.StatusName)
+                || IsNewStatusName(incident.StatusArabicName)
+                || IsNewStatusName(incident.StatusEnglishName);
+        }
+
+        private static bool IsNewStatusName(string? statusName)
+        {
+            if (string.IsNullOrWhiteSpace(statusName))
+            {
+                return false;
+            }
+
+            var normalized = statusName.Trim();
+            return normalized.Equals("جديد", StringComparison.OrdinalIgnoreCase)
+                || normalized.Equals("New", StringComparison.OrdinalIgnoreCase);
         }
 
         private static string BuildBody(MediaIncidentDto incident)
