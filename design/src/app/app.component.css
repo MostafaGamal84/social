@@ -72,7 +72,7 @@
 }
 
 .dashboard-header__image img {
-  width: 100%;
+  width: 123%;
   max-width: 280px;
   max-height: 230px;
   object-fit: contain;
