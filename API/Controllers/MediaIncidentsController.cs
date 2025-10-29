@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using Api.Helpers;
 using API.DTOs;
@@ -26,7 +27,7 @@ namespace API.Controllers
 
             var response = new
             {
-                data = pagedResult,
+                data = pagedResult.ToList(),
                 pagination = new
                 {
                     currentPage = pagedResult.CurrentPage,
