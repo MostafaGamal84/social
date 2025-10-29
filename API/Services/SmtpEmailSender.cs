@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Helpers;
@@ -23,7 +24,12 @@ namespace API.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task SendEmailAsync(IEnumerable<string> recipients, string subject, string body, CancellationToken cancellationToken = default)
+        public async Task SendEmailAsync(
+            IEnumerable<string> recipients,
+            string subject,
+            string body,
+            bool isBodyHtml = false,
+            CancellationToken cancellationToken = default)
         {
             if (recipients == null)
             {
@@ -69,7 +75,9 @@ namespace API.Services
                 From = fromAddress,
                 Subject = subject,
                 Body = body,
-                IsBodyHtml = false
+                IsBodyHtml = isBodyHtml,
+                BodyEncoding = Encoding.UTF8,
+                SubjectEncoding = Encoding.UTF8
             };
 
             foreach (var recipient in recipientList)
