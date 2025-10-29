@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from '../models/media-incident';
 import { LookupItem } from '../models/lookup';
 import { ChatAssistantMessage, ChatAssistantRequest, ChatAssistantResponse, ChatAssistantService } from '../services/chat-assistant.service';
@@ -35,10 +35,12 @@ export class ChatAssistantComponent {
   @Output() searchCompleted = new EventEmitter<ChatSearchResult>();
 
   @ViewChild('messagesContainer') private messagesContainer?: ElementRef<HTMLDivElement>;
+  @ViewChild('messageInput') private messageInput?: ElementRef<HTMLTextAreaElement>;
 
   isOpen = false;
   isProcessing = false;
   userInput = '';
+  readonly chatPanelId = 'chat-assistant-panel';
   messages: ChatMessage[] = [
     {
       role: 'assistant',
@@ -54,10 +56,31 @@ export class ChatAssistantComponent {
   ) {}
 
   toggleChat(): void {
-    this.isOpen = !this.isOpen;
     if (this.isOpen) {
-      this.scrollToBottom();
+      this.closeChat();
+    } else {
+      this.openChat();
     }
+  }
+
+  openChat(): void {
+    if (this.isOpen) {
+      this.focusInput();
+      this.scrollToBottom();
+      return;
+    }
+
+    this.isOpen = true;
+    this.focusInput();
+    this.scrollToBottom();
+  }
+
+  closeChat(): void {
+    if (!this.isOpen) {
+      return;
+    }
+
+    this.isOpen = false;
   }
 
   sendMessage(): void {
@@ -76,6 +99,16 @@ export class ChatAssistantComponent {
       event.preventDefault();
       this.sendMessage();
     }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscape(event: KeyboardEvent): void {
+    if (!this.isOpen) {
+      return;
+    }
+
+    event.preventDefault();
+    this.closeChat();
   }
 
   private processUserMessage(): void {
@@ -202,6 +235,12 @@ export class ChatAssistantComponent {
         const element = this.messagesContainer.nativeElement;
         element.scrollTop = element.scrollHeight;
       }
+    });
+  }
+
+  private focusInput(): void {
+    setTimeout(() => {
+      this.messageInput?.nativeElement.focus();
     });
   }
 }

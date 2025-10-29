@@ -1,16 +1,23 @@
-<div class="assistant">
-  <button type="button" class="assistant__toggle" (click)="toggleChat()" aria-label="فتح أو إغلاق مساعد الدردشة">
+<div class="assistant" [class.assistant--open]="isOpen">
+  <button
+    type="button"
+    class="assistant__toggle"
+    (click)="toggleChat()"
+    aria-label="فتح أو إغلاق مساعد الدردشة"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-controls]="chatPanelId"
+  >
     <span class="assistant__icon" *ngIf="!isOpen">🤖</span>
     <span class="assistant__icon" *ngIf="isOpen">✕</span>
   </button>
 
-  <div class="chat" *ngIf="isOpen">
+  <div class="chat" *ngIf="isOpen" [attr.id]="chatPanelId" role="dialog" aria-modal="false">
     <header class="chat__header">
       <div class="chat__title">
         <h3>مساعد الاستعلامات</h3>
         <p>اطلب البيانات وسيتم تجهيز الاستعلام تلقائياً.</p>
       </div>
-      <button type="button" class="chat__close" (click)="toggleChat()" aria-label="إغلاق المساعد">✕</button>
+      <button type="button" class="chat__close" (click)="closeChat()" aria-label="إغلاق المساعد">✕</button>
     </header>
 
     <div class="chat__messages" #messagesContainer>
@@ -38,6 +45,7 @@
         placeholder="اكتب طلبك هنا..."
         (keydown)="onTextareaKeyDown($event)"
         [disabled]="isProcessing"
+        #messageInput
       ></textarea>
       <button type="submit" class="chat__send" [disabled]="!userInput.trim() || isProcessing">
         <span *ngIf="!isProcessing">إرسال</span>

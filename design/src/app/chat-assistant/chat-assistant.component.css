@@ -2,9 +2,10 @@
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  z-index: 1200;
+  z-index: 1500;
   direction: rtl;
   font-family: inherit;
+  pointer-events: none;
 }
 
 .assistant {
@@ -13,6 +14,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.75rem;
+  pointer-events: auto;
 }
 
 .assistant__toggle {
@@ -27,13 +29,23 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   font-size: 1.8rem;
 }
 
 .assistant__toggle:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
+}
+
+.assistant__toggle:focus-visible {
+  outline: 3px solid rgba(217, 207, 168, 0.65);
+  outline-offset: 3px;
+}
+
+.assistant--open .assistant__toggle {
+  background: var(--primary-dark);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.26);
 }
 
 .assistant__icon {
