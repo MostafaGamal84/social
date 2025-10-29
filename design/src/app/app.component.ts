@@ -1,4 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { MediaIncident, MediaIncidentFilters, PaginatedResponse, QuickRange } from './models/media-incident';
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
   authorityLogoUrl = '../assets/images/authority-logo.png';
   irtaqaLogoUrl = '../assets/images/ertiqaa-logo.png';
   isFiltersOpen = false;
+  isDarkMode = false;
   readonly quickRanges: ReadonlyArray<{ label: string; value: QuickRange }> = [
     { label: 'آخر ٧ أيام', value: 'week' },
     { label: 'آخر ٣٠ يوماً', value: 'month' },
@@ -59,6 +61,7 @@ export class AppComponent implements OnInit {
     subCategory: 'SubCategory'
   } as const;
   activeQuickRange: QuickRange | null = this.defaultQuickRange;
+  private readonly themeStorageKey = 'app-theme-preference';
   private readonly palette = [
     '#5F6468',
     '#C1A071',
@@ -89,7 +92,8 @@ export class AppComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly lookupService: LookupService,
     private readonly incidentsService: MediaIncidentService,
-    private readonly loadingService: LoadingService
+    private readonly loadingService: LoadingService,
+    @Inject(DOCUMENT) private readonly document: Document
   ) {
     this.form = this.fb.group({
       search: [''],
@@ -104,6 +108,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeTheme();
     this.loadLookupItems();
     this.loadIncidents();
   }
@@ -185,6 +190,10 @@ export class AppComponent implements OnInit {
 
   closeFilters(): void {
     this.isFiltersOpen = false;
+  }
+
+  toggleTheme(): void {
+    this.setDarkMode(!this.isDarkMode);
   }
 
   filterSubByMain(mainId: number | null): LookupItem[] {
@@ -507,6 +516,43 @@ export class AppComponent implements OnInit {
     this.activeQuickRange = this.resolveActiveQuickRange(filters);
     this.incidents = incidents;
     this.pagination = pagination ?? null;
+  }
+
+  private initializeTheme(): void {
+    if (this.canUseBrowserStorage) {
+      const storedPreference = window.localStorage.getItem(this.themeStorageKey);
+
+      if (storedPreference === 'dark' || storedPreference === 'light') {
+        this.setDarkMode(storedPreference === 'dark', false);
+        return;
+      }
+    }
+
+    this.setDarkMode(this.prefersDarkMode, false);
+  }
+
+  private setDarkMode(enabled: boolean, persist = true): void {
+    this.isDarkMode = enabled;
+
+    if (this.document?.body) {
+      this.document.body.classList.toggle('dark-theme', enabled);
+    }
+
+    if (persist && this.canUseBrowserStorage) {
+      window.localStorage.setItem(this.themeStorageKey, enabled ? 'dark' : 'light');
+    }
+  }
+
+  private get canUseBrowserStorage(): boolean {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+  }
+
+  private get prefersDarkMode(): boolean {
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
   }
 
   private getDistribution(
