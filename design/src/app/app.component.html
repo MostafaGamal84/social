@@ -342,40 +342,16 @@
               <p>توزيع البلاغات على مدار الأشهر الأخيرة.</p>
             </div>
           </header>
-          <ng-container *ngIf="monthlyTrend as trendPoints">
-            <div class="trend" *ngIf="trendPoints.length; else emptyTrend">
-              <ng-container *ngIf="getTrendCoordinates(trendPoints) as coordinates">
-                <div class="trend__chart" role="img" aria-label="مخطط الاتجاه الزمني للبلاغات">
-                  <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                    <path class="trend__area" [attr.d]="getTrendAreaPath(coordinates)"></path>
-                    <path class="trend__line" [attr.d]="getTrendLinePath(coordinates)"></path>
-                    <g class="trend__points">
-                      <ng-container *ngFor="let coordinate of coordinates">
-                        <circle
-                          class="trend__point"
-                          [attr.cx]="coordinate.x"
-                          [attr.cy]="coordinate.y"
-                          r="2.4"
-                        ></circle>
-                        <text
-                          *ngIf="coordinate.value"
-                          class="trend__value"
-                          [attr.x]="coordinate.x"
-                          [attr.y]="coordinate.textY"
-                          text-anchor="middle"
-                        >
-                          {{ coordinate.value }}
-                        </text>
-                      </ng-container>
-                    </g>
-                  </svg>
-                </div>
-              </ng-container>
-              <div class="trend__labels">
-                <span *ngFor="let point of trendPoints">{{ point.label }}</span>
+          <div class="trend" *ngIf="monthlyTrend.length; else emptyTrend">
+            <div class="trend__chart">
+              <div class="trend__bar" *ngFor="let point of monthlyTrend" [style.height.%]="getTrendHeight(point)">
+                <span class="trend__value" *ngIf="point.value">{{ point.value }}</span>
               </div>
             </div>
-          </ng-container>
+            <div class="trend__labels">
+              <span *ngFor="let point of monthlyTrend">{{ point.label }}</span>
+            </div>
+          </div>
           <ng-template #emptyTrend>
             <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
           </ng-template>

@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   pagination: PaginatedResponse<MediaIncident>['pagination'] | null = null;
   selectedIncident: MediaIncident | null = null;
   readonly loading$ = this.loadingService.loading$;
-  readonly pageSizeOptions = [100000];
+  readonly pageSizeOptions = [10,20,50,100,1000];
   readonly mediaMonitoringMainCategoryId = 34;
   authorityLogoUrl = '../assets/images/authority-logo.png';
   irtaqaLogoUrl = '../assets/images/ertiqaa-logo.png';
