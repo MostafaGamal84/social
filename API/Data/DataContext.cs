@@ -37,11 +37,12 @@ namespace API.Data
         e.ToView("vw_MediaMonitoringIncidents");
       });
      // ---- Keyless Entity: IncidentNotification ----
-            builder.Entity<IncidentNotification>(e =>
-            {
-                e.HasNoKey();
-                e.ToTable("IncidentNotification"); // optional — change name if actual table/view differs
-            });
+      builder.Entity<IncidentNotification>(e =>
+{
+    e.ToTable("IncidentNotifications"); // keep if table name is plural
+    e.HasKey(x => x.Id);
+    e.Property(x => x.Id).ValueGeneratedOnAdd();
+});
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
