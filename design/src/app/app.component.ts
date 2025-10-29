@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from './models/media-incident';
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   form: FormGroup;
   incidents: MediaIncident[] = [];
   pagination: PaginatedResponse<MediaIncident>['pagination'] | null = null;
+  selectedIncident: MediaIncident | null = null;
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
   readonly mediaMonitoringMainCategoryId = 34;
@@ -297,6 +298,31 @@ export class AppComponent implements OnInit {
 
   getPriorityStyle(color: string | null | undefined) {
     return color ? { '--priority-color': color } : null;
+  }
+
+  openIncidentDetails(incident: MediaIncident): void {
+    this.selectedIncident = incident;
+  }
+
+  closeIncidentDetails(): void {
+    this.selectedIncident = null;
+  }
+
+  onIncidentKeydown(event: KeyboardEvent, incident: MediaIncident): void {
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+      event.preventDefault();
+      this.openIncidentDetails(incident);
+    }
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape(event: KeyboardEvent): void {
+    if (!this.selectedIncident) {
+      return;
+    }
+
+    event.preventDefault();
+    this.closeIncidentDetails();
   }
 
   onChatSearchCompleted(result: ChatSearchResult): void {
