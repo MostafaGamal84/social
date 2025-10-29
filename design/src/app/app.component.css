@@ -1063,6 +1063,16 @@ tbody tr:hover {
   overflow-y: auto;
 }
 
+.incident-details__link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.incident-details__link:hover,
+.incident-details__link:focus {
+  text-decoration: none;
+}
+
 .incident-details__image {
   margin: 0;
   border-radius: 22px;
