@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from './models/media-incident';
+import { MediaIncident, MediaIncidentFilters, PaginatedResponse, QuickRange } from './models/media-incident';
 import { LookupItem } from './models/lookup';
 import { LookupService } from './services/lookup.service';
 import { MediaIncidentService } from './services/media-incident.service';
@@ -40,12 +40,13 @@ export class AppComponent implements OnInit {
   authorityLogoUrl = '../assets/images/authority-logo.png';
   irtaqaLogoUrl = '../assets/images/ertiqaa-logo.png';
   isFiltersOpen = false;
-  readonly quickRanges = [
+  readonly quickRanges: ReadonlyArray<{ label: string; value: QuickRange }> = [
     { label: 'آخر ٧ أيام', value: 'week' },
     { label: 'آخر ٣٠ يوماً', value: 'month' },
     { label: 'آخر ٩٠ يوماً', value: 'quarter' },
     { label: 'منذ البداية', value: 'lifetime' }
-  ] as const;
+  ];
+  private readonly defaultQuickRange: QuickRange = this.quickRanges[1].value;
   readonly lookupTypes = {
     center: 'Center',
     neighborhood: 'Neighborhood',
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     mainCategory: 'MainCategory',
     subCategory: 'SubCategory'
   } as const;
-  activeQuickRange: (typeof this.quickRanges)[number]['value'] = this.quickRanges[1].value;
+  activeQuickRange: QuickRange | null = this.defaultQuickRange;
   private readonly palette = ['#176C55', '#D8A233', '#B87224', '#3D856C', '#7EA063', '#5F7D4B', '#C49B3A'];
   private readonly resolvedKeywords = ['مغلق', 'منجز', 'مكتمل', 'تم', 'مقفلة', 'مغلقة', 'closed', 'resolved', 'complete', 'finished'].map(
     keyword => keyword.toLowerCase()
@@ -149,6 +150,7 @@ export class AppComponent implements OnInit {
       priorityId: null,
       pageSize: this.pageSizeOptions[0]
     });
+    this.activeQuickRange = this.defaultQuickRange;
     this.loadIncidents(1);
     this.closeFilters();
   }
@@ -185,8 +187,13 @@ export class AppComponent implements OnInit {
     this.loadIncidents(page);
   }
 
-  setQuickRange(range: (typeof this.quickRanges)[number]['value']): void {
+  setQuickRange(range: QuickRange): void {
+    if (this.activeQuickRange === range) {
+      return;
+    }
+
     this.activeQuickRange = range;
+    this.loadIncidents(1);
   }
 
   buildConicGradient(entries: DistributionView[]): string {
@@ -226,7 +233,7 @@ export class AppComponent implements OnInit {
       pageSize
     } = this.form.value;
 
-    return {
+    const filters: MediaIncidentFilters = {
       search: search?.trim() || undefined,
       centerId: this.toNullableNumber(centerId),
       neighborhoodId: this.toNullableNumber(neighborhoodId),
@@ -237,6 +244,18 @@ export class AppComponent implements OnInit {
       pageNumber,
       pageSize: Number(pageSize) || this.pageSizeOptions[0]
     };
+
+    const { startDate, endDate } = this.getQuickRangeDates();
+
+    if (startDate) {
+      filters.startDate = startDate;
+    }
+
+    if (endDate) {
+      filters.endDate = endDate;
+    }
+
+    return filters;
   }
 
   private loadIncidents(pageNumber = 1): void {
@@ -252,6 +271,88 @@ export class AppComponent implements OnInit {
         this.pagination = null;
       }
     });
+  }
+
+  private getQuickRangeDates(range: QuickRange | null = this.activeQuickRange): {
+    startDate?: string;
+    endDate?: string;
+  } {
+    if (!range || range === 'lifetime') {
+      return {};
+    }
+
+    const endDate = new Date();
+    const startDate = new Date();
+
+    switch (range) {
+      case 'week':
+        startDate.setDate(startDate.getDate() - 6);
+        break;
+      case 'month':
+        startDate.setDate(startDate.getDate() - 29);
+        break;
+      case 'quarter':
+        startDate.setDate(startDate.getDate() - 89);
+        break;
+    }
+
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+
+    return {
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString()
+    };
+  }
+
+  private resolveActiveQuickRange(filters: MediaIncidentFilters): QuickRange | null {
+    if (filters.quickRange) {
+      return filters.quickRange;
+    }
+
+    if (filters.startDate || filters.endDate) {
+      return this.matchQuickRangeFromDates(filters.startDate, filters.endDate);
+    }
+
+    return this.activeQuickRange;
+  }
+
+  private matchQuickRangeFromDates(startDate?: string | null, endDate?: string | null): QuickRange | null {
+    if (!startDate || !endDate) {
+      return null;
+    }
+
+    const parsedStart = new Date(startDate);
+    const parsedEnd = new Date(endDate);
+
+    if (Number.isNaN(parsedStart.getTime()) || Number.isNaN(parsedEnd.getTime())) {
+      return null;
+    }
+
+    const toleranceMs = 1000;
+
+    for (const range of this.quickRanges) {
+      if (range.value === 'lifetime') {
+        continue;
+      }
+
+      const expected = this.getQuickRangeDates(range.value);
+      if (!expected.startDate || !expected.endDate) {
+        continue;
+      }
+
+      const expectedStart = new Date(expected.startDate);
+      const expectedEnd = new Date(expected.endDate);
+
+      if (
+        Math.abs(expectedStart.getTime() - parsedStart.getTime()) <= toleranceMs &&
+        Math.abs(expectedEnd.getTime() - parsedEnd.getTime()) <= toleranceMs
+      ) {
+        return range.value;
+      }
+    }
+
+    return null;
   }
 
   private loadLookupItems(): void {
@@ -357,6 +458,7 @@ export class AppComponent implements OnInit {
       pageSize: filters.pageSize ?? this.pageSizeOptions[0]
     });
 
+    this.activeQuickRange = this.resolveActiveQuickRange(filters);
     this.incidents = incidents;
     this.pagination = pagination ?? null;
   }

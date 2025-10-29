@@ -27,6 +27,8 @@ export interface MediaIncident {
   lng: number | null;
 }
 
+export type QuickRange = 'week' | 'month' | 'quarter' | 'lifetime';
+
 export interface MediaIncidentFilters {
   centerId?: number | null;
   neighborhoodId?: number | null;
@@ -37,6 +39,9 @@ export interface MediaIncidentFilters {
   search?: string | null;
   pageNumber?: number;
   pageSize?: number;
+  startDate?: string | null;
+  endDate?: string | null;
+  quickRange?: QuickRange | null;
 }
 
 export interface PaginatedResponse<T> {
