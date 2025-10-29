@@ -413,7 +413,19 @@
       <header class="incident-details__header">
         <div class="incident-details__title">
           <span class="incident-details__subtitle">تفاصيل البلاغ</span>
-          <h2 id="incidentDetailsTitle">بلاغ رقم {{ incident.refId || incident.incidentId }}</h2>
+          <h2 id="incidentDetailsTitle">
+            بلاغ رقم
+            <ng-container *ngIf="getIncidentDetailsUrl(incident) as incidentUrl; else incidentNumber">
+              <a
+                [href]="incidentUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ incident.refId || incident.incidentId }}
+              </a>
+            </ng-container>
+            <ng-template #incidentNumber>{{ incident.refId || incident.incidentId }}</ng-template>
+          </h2>
           <p class="incident-details__timestamp">تم الإنشاء في {{ incident.createdAt | date: 'fullDate' }} - {{ incident.createdAt | date: 'shortTime' }}</p>
         </div>
         <button type="button" class="incident-details__close" (click)="closeIncidentDetails()" aria-label="إغلاق تفاصيل البلاغ">
@@ -488,7 +500,18 @@
             </div>
             <div class="incident-details__item">
               <dt>رقم البلاغ الداخلي</dt>
-              <dd>{{ incident.incidentId }}</dd>
+              <dd>
+                <ng-container *ngIf="getIncidentDetailsUrl(incident) as incidentUrl; else noIncidentId">
+                  <a
+                    [href]="incidentUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {{ incident.incidentId }}
+                  </a>
+                </ng-container>
+                <ng-template #noIncidentId>—</ng-template>
+              </dd>
             </div>
            
           </dl>

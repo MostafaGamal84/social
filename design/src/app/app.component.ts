@@ -7,6 +7,7 @@ import { LookupService } from './services/lookup.service';
 import { MediaIncidentService } from './services/media-incident.service';
 import { LoadingService } from './services/loading.service';
 import { ChatSearchResult } from './chat-assistant/chat-assistant.component';
+import { environment } from '../environments/environment';
 
 type DistributionSegment = {
   label: string;
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   readonly mediaMonitoringMainCategoryId = 34;
   authorityLogoUrl = '../assets/images/authority-logo.png';
   irtaqaLogoUrl = '../assets/images/ertiqaa-logo.png';
+  readonly incidentDetailsBaseUrl = environment.ertiqaaIncidentBaseUrl;
   isFiltersOpen = false;
   readonly quickRanges: ReadonlyArray<{ label: string; value: QuickRange }> = [
     { label: 'آخر ٧ أيام', value: 'week' },
@@ -433,6 +435,23 @@ export class AppComponent implements OnInit {
 
   closeIncidentDetails(): void {
     this.selectedIncident = null;
+  }
+
+  getIncidentDetailsUrl(incident: MediaIncident): string | null {
+    const incidentNumber = incident.refId ?? incident.incidentId;
+
+    if (incidentNumber === null || incidentNumber === undefined) {
+      return null;
+    }
+
+    const trimmed = String(incidentNumber).trim();
+
+    if (!trimmed) {
+      return null;
+    }
+
+    const baseUrl = this.incidentDetailsBaseUrl.replace(/\/$/, '');
+    return `${baseUrl}/${trimmed}`;
   }
 
   onIncidentKeydown(event: KeyboardEvent, incident: MediaIncident): void {
