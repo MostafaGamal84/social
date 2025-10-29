@@ -1,6 +1,6 @@
 <div class="assistant">
   <button type="button" class="assistant__toggle" (click)="toggleChat()" aria-label="فتح أو إغلاق مساعد الدردشة">
-    <span class="assistant__icon" *ngIf="!isOpen">🤖</span>
+    <span class="assistant__icon assistant__icon--blink" *ngIf="!isOpen">🤖</span>
     <span class="assistant__icon" *ngIf="isOpen">✕</span>
   </button>
 

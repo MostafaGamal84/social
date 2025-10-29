@@ -40,6 +40,25 @@
   line-height: 1;
 }
 
+.assistant__icon--blink {
+  animation: assistant-icon-blink 1.4s ease-in-out infinite;
+  display: inline-flex;
+}
+
+@keyframes assistant-icon-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+  }
+}
+
 .chat {
   width: min(360px, calc(100vw - 3rem));
   background: var(--surface-contrast);
