@@ -19,6 +19,7 @@ namespace API.Data
     public DbSet<Post> posts { get; set; }
     public DbSet<Category> categories { get; set; }
     public DbSet<MediaIncidentView> MediaIncidents => Set<MediaIncidentView>();
+    public DbSet<IncidentNotification> IncidentNotifications => Set<IncidentNotification>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
       builder.HasDefaultSchema("dbo");
