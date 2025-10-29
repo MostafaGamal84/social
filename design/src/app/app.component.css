@@ -124,6 +124,12 @@
   border: 1px solid rgba(217, 207, 168, 0.8);
 }
 
+.toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .toolbar__group {
   display: flex;
   align-items: center;
@@ -177,6 +183,117 @@
 .toolbar__metric strong {
   color: var(--accent);
   font-size: 1.4rem;
+}
+
+.filters-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: var(--primary);
+  color: #fff;
+  border-color: rgba(23, 108, 85, 0.35);
+  padding-inline: 1.3rem;
+}
+
+.filters-toggle:hover:not(:disabled) {
+  background: var(--primary-dark);
+  color: #fff;
+}
+
+.filters-toggle__icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filters-toggle__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.filters-toggle__label {
+  font-weight: 700;
+}
+
+.filters-sidebar {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.filters-sidebar__backdrop {
+  flex: 1;
+  background: rgba(20, 79, 60, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.filters-sidebar__panel {
+  width: min(420px, 90vw);
+  max-width: 100%;
+  background: var(--surface-contrast);
+  box-shadow: -12px 0 36px rgba(23, 108, 85, 0.2);
+  height: 100%;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.85rem 2rem;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+.filters-sidebar--open {
+  pointer-events: auto;
+}
+
+.filters-sidebar--open .filters-sidebar__backdrop {
+  opacity: 1;
+}
+
+.filters-sidebar--open .filters-sidebar__panel {
+  transform: translateX(0);
+}
+
+.filters-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.filters-sidebar__title {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--primary-dark);
+}
+
+.filters-sidebar__close {
+  background: transparent;
+  border: 1px solid rgba(23, 108, 85, 0.18);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--primary-dark);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
+}
+
+.filters-sidebar__close:hover {
+  background: rgba(23, 108, 85, 0.08);
+  border-color: rgba(23, 108, 85, 0.3);
+}
+
+.filters-sidebar__panel .filters {
+  margin: 0;
 }
 
 .filters {
