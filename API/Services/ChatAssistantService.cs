@@ -524,8 +524,17 @@ namespace API.Services
             var normalized = value.ToLowerInvariant();
             normalized = normalized.Normalize(NormalizationForm.FormC);
             normalized = RemoveDiacritics(normalized);
-            normalized = System.Text.RegularExpressions.Regex.Replace(normalized, "[^\u0600-\u06FF0-9a-zA-Z\s]", "");
-            normalized = System.Text.RegularExpressions.Regex.Replace(normalized, "\s+", " ");
+          normalized = System.Text.RegularExpressions.Regex.Replace(
+    normalized,
+    @"[^\u0600-\u06FF0-9a-zA-Z\s]",
+    ""
+);
+
+normalized = System.Text.RegularExpressions.Regex.Replace(
+    normalized,
+    @"\s+",
+    " "
+);
             return normalized.Trim();
         }
 
