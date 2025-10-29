@@ -280,7 +280,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let incident of incidents; trackBy: trackByIncident">
+          <tr
+            *ngFor="let incident of incidents; trackBy: trackByIncident"
+            class="table-row table-row--clickable"
+            (click)="openIncidentDetails(incident)"
+            (keydown)="onIncidentKeydown($event, incident)"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'عرض تفاصيل البلاغ ' + (incident.refId || incident.incidentId)"
+          >
             <td data-label="#">{{ incident.refId || incident.incidentId }}</td>
             <td data-label="التصنيف الفرعي">{{ incident.subCategoryName || '—' }}</td>
             <td data-label="الكمية">{{ incident.quantityValue ?? '—' }}</td>
@@ -332,6 +340,96 @@
       </button>
     </nav>
   </section>
+
+  <div
+    class="incident-details-overlay"
+    *ngIf="selectedIncident as incident"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="incidentDetailsTitle"
+    (click)="closeIncidentDetails()"
+  >
+    <article class="incident-details" (click)="$event.stopPropagation()">
+      <header class="incident-details__header">
+        <div class="incident-details__title">
+          <span class="incident-details__subtitle">تفاصيل البلاغ</span>
+          <h2 id="incidentDetailsTitle">بلاغ رقم {{ incident.refId || incident.incidentId }}</h2>
+          <p class="incident-details__timestamp">تم الإنشاء في {{ incident.createdAt | date: 'fullDate' }} - {{ incident.createdAt | date: 'shortTime' }}</p>
+        </div>
+        <button type="button" class="incident-details__close" (click)="closeIncidentDetails()" aria-label="إغلاق تفاصيل البلاغ">
+          &times;
+        </button>
+      </header>
+
+      <div class="incident-details__body">
+        <figure class="incident-details__image">
+          <img *ngIf="incident.representativeImageUrl; else incidentImagePlaceholder" [src]="incident.representativeImageUrl" alt="صورة البلاغ" />
+          <ng-template #incidentImagePlaceholder>
+            <div class="incident-details__image-placeholder">
+              <span>لا توجد صورة مرفقة</span>
+            </div>
+          </ng-template>
+        </figure>
+
+        <section class="incident-details__info" aria-label="بيانات البلاغ">
+          <div class="incident-details__status">
+            <span class="incident-details__status-badge">{{ incident.statusName || 'غير محدد' }}</span>
+            <span
+              class="priority-pill incident-details__priority"
+              [ngClass]="{ 'priority-pill--missing': !incident.priorityName }"
+              [ngStyle]="getPriorityStyle(incident.priorityColor)"
+            >
+              {{ incident.priorityName || 'غير محدد' }}
+            </span>
+          </div>
+
+          <dl class="incident-details__grid">
+            <div class="incident-details__item">
+              <dt>التصنيف الفرعي</dt>
+              <dd>{{ incident.subCategoryName || '—' }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>الكمية</dt>
+              <dd>{{ incident.quantityValue ?? '—' }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>البلدية</dt>
+              <dd>{{ incident.centerName || '—' }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>الحي</dt>
+              <dd>{{ incident.neighborhoodName || '—' }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>الطريق</dt>
+              <dd>{{ incident.roadName || '—' }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>الإحداثيات</dt>
+              <dd>
+                <ng-container *ngIf="incident.lat !== null && incident.lng !== null; else noCoordinates">
+                  {{ incident.lat }}, {{ incident.lng }}
+                </ng-container>
+                <ng-template #noCoordinates>—</ng-template>
+              </dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>رقم البلاغ الداخلي</dt>
+              <dd>{{ incident.incidentId }}</dd>
+            </div>
+            <div class="incident-details__item">
+              <dt>المرجع</dt>
+              <dd>{{ incident.refId || '—' }}</dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+
+      <footer class="incident-details__footer">
+        <button type="button" class="btn" (click)="closeIncidentDetails()">إغلاق</button>
+      </footer>
+    </article>
+  </div>
 
   <div class="loading" *ngIf="loading$ | async">
     <div class="spinner"></div>
