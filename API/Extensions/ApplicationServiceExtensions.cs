@@ -16,8 +16,12 @@ namespace API.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
-            services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
+            services.Configure<MailSettings>(config.GetSection("Mail"));
+
             services.AddScoped<ILookupDataService, LookupQueryService>();
+            services.AddSingleton<IIncidentAlertService, IncidentAlertService>();
+            services.AddTransient<IEmailSender, SmtpEmailSender>();
+            services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
             services.Configure<OpenAiOptions>(config.GetSection("OpenAI"));
             services.AddHttpClient<IChatAssistantService, ChatAssistantService>();
 
