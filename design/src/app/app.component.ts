@@ -57,7 +57,15 @@ export class AppComponent implements OnInit {
     subCategory: 'SubCategory'
   } as const;
   activeQuickRange: QuickRange | null = this.defaultQuickRange;
-  private readonly palette = ['#176C55', '#D8A233', '#B87224', '#3D856C', '#7EA063', '#5F7D4B', '#C49B3A'];
+  private readonly palette = [
+    '#5F6468',
+    '#C1A071',
+    '#E6D2A3',
+    '#F6CF86',
+    '#B7AD9B',
+    '#D8C29A',
+    '#EBD9B7'
+  ];
   private readonly resolvedKeywords = ['مغلق', 'منجز', 'مكتمل', 'تم', 'مقفلة', 'مغلقة', 'closed', 'resolved', 'complete', 'finished'].map(
     keyword => keyword.toLowerCase()
   );
