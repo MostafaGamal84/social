@@ -68,6 +68,12 @@ namespace API.Migrations
                     b.Property<double?>("Lng")
                         .HasColumnType("float");
 
+                    b.Property<int?>("MainCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MainCategoryName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("NeighborhoodId")
                         .HasColumnType("int");
 
@@ -95,8 +101,20 @@ namespace API.Migrations
                     b.Property<string>("RoadName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SourceOfIncident")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
+
+                    b.Property<string>("StatusArabicName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusColor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusEnglishName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StatusName")
                         .HasColumnType("nvarchar(max)");

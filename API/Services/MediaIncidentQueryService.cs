@@ -81,6 +81,8 @@ namespace API.Services
             var sql = $@"
 SELECT IncidentId,
        RefId,
+       MainCategoryId,
+       MainCategoryName,
        SubCategoryId,
        SubCategoryName,
        Quantity AS QuantityValue,
@@ -94,7 +96,10 @@ SELECT IncidentId,
        RoadId,
        RoadName,
        StatusId,
-       CAST(NULL AS NVARCHAR(100)) AS StatusName,
+       StatusArabicName,
+       StatusEnglishName,
+       StatusColor,
+       SourceOfIncident,
        RepresentativeImagePath AS ImagePath,
        CreatedAt,
        Lat,
@@ -180,10 +185,15 @@ OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
         private static MediaIncidentDto MapIncident(SqlDataReader reader)
         {
+            var statusArabic = GetNullableString(reader, "StatusArabicName");
+            var statusEnglish = GetNullableString(reader, "StatusEnglishName");
+
             return new MediaIncidentDto
             {
                 IncidentId = reader.GetInt32(reader.GetOrdinal("IncidentId")),
                 RefId = GetNullableString(reader, "RefId"),
+                MainCategoryId = GetNullableInt(reader, "MainCategoryId"),
+                MainCategoryName = GetNullableString(reader, "MainCategoryName"),
                 SubCategoryId = GetNullableInt(reader, "SubCategoryId"),
                 SubCategoryName = GetNullableString(reader, "SubCategoryName"),
                 QuantityValue = GetNullableDecimal(reader, "QuantityValue"),
@@ -197,7 +207,11 @@ OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
                 RoadId = GetNullableInt(reader, "RoadId"),
                 RoadName = GetNullableString(reader, "RoadName"),
                 StatusId = GetNullableInt(reader, "StatusId"),
-                StatusName = GetNullableString(reader, "StatusName"),
+                StatusArabicName = statusArabic,
+                StatusEnglishName = statusEnglish,
+                StatusName = statusArabic ?? statusEnglish,
+                StatusColor = GetNullableString(reader, "StatusColor"),
+                SourceOfIncident = GetNullableString(reader, "SourceOfIncident"),
                 RepresentativeImageUrl = GetNullableString(reader, "ImagePath"),
                 CreatedAt = DateTime.SpecifyKind(reader.GetDateTime(reader.GetOrdinal("CreatedAt")), DateTimeKind.Utc),
                 Lat = GetNullableDouble(reader, "Lat"),

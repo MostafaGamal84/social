@@ -805,6 +805,36 @@ tbody tr:hover {
   background: var(--priority-color, var(--accent));
 }
 
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(23, 108, 85, 0.12);
+  color: var(--primary-dark);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.status-pill::before {
+  content: '';
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--status-color, var(--primary-dark));
+}
+
+.status-pill--missing {
+  background: rgba(100, 116, 139, 0.12);
+  color: var(--muted);
+}
+
+.status-pill--missing::before {
+  background: rgba(100, 116, 139, 0.65);
+}
+
 .priority-pill--missing {
   background: rgba(100, 116, 139, 0.12);
   color: var(--muted);
@@ -1007,10 +1037,6 @@ tbody tr:hover {
 }
 
 .incident-details__status-badge {
-  padding: 0.35rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(23, 108, 85, 0.12);
-  color: var(--primary-dark);
   font-weight: 700;
   font-size: 0.9rem;
 }

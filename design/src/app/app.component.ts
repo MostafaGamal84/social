@@ -115,7 +115,12 @@ export class AppComponent implements OnInit {
   }
 
   get statusBreakdown(): DistributionView[] {
-    return this.toDistributionView(this.getDistribution(incident => incident.statusName));
+    return this.toDistributionView(
+      this.getDistribution(
+        incident => incident.statusName,
+        incident => incident.statusColor
+      )
+    );
   }
 
   get priorityBreakdown(): DistributionView[] {
@@ -300,6 +305,10 @@ export class AppComponent implements OnInit {
     return color ? { '--priority-color': color } : null;
   }
 
+  getStatusStyle(color: string | null | undefined) {
+    return color ? { '--status-color': color } : null;
+  }
+
   openIncidentDetails(incident: MediaIncident): void {
     this.selectedIncident = incident;
   }
@@ -459,8 +468,13 @@ export class AppComponent implements OnInit {
 
   private getResolvedIncidentsCount(): number {
     return this.incidents.filter(incident => {
-      const status = incident.statusName?.toLowerCase() ?? '';
-      return Boolean(status) && this.resolvedKeywords.some(keyword => status.includes(keyword));
+      const arabicStatus = incident.statusName?.toLowerCase() ?? '';
+      const englishStatus = incident.statusEnglishName?.toLowerCase() ?? '';
+
+      const matchesArabic = Boolean(arabicStatus) && this.resolvedKeywords.some(keyword => arabicStatus.includes(keyword));
+      const matchesEnglish = Boolean(englishStatus) && this.resolvedKeywords.some(keyword => englishStatus.includes(keyword));
+
+      return matchesArabic || matchesEnglish;
     }).length;
   }
 }
