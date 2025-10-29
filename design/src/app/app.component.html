@@ -1,8 +1,42 @@
 <div class="layout">
-  <header class="header">
-    <h1>منصة الرصد الإعلامي</h1>
-    <p>عرض وتتبع البلاغات القادمة من منصة ارتقاء للتصنيف الرئيسي "الرصد الإعلامي".</p>
+  <header class="dashboard-header">
+    <div class="dashboard-header__title">
+      <span class="dashboard-header__subtitle">لوحة متابعة ملاحظات المخالفات وعرض التحسينات المقترحة</span>
+      <h1>منصة الرصد الإعلامي</h1>
+      <p>متابعة فورية لملاحظات الرصد وتحليلها عبر مؤشرات واضحة وقابلة للتنفيذ.</p>
+    </div>
+    <div class="dashboard-header__actions">
+      <button type="button" class="btn btn--ghost">تصدير التقرير</button>
+      <button type="button" class="btn btn--primary">إضافة ملاحظة</button>
+    </div>
   </header>
+
+  <section class="toolbar">
+    <div class="toolbar__group">
+      <span class="toolbar__label">الفترة الزمنية</span>
+      <div class="chip-group">
+        <button
+          type="button"
+          class="chip"
+          *ngFor="let range of quickRanges"
+          [class.chip--active]="range.value === activeQuickRange"
+          (click)="setQuickRange(range.value)"
+        >
+          {{ range.label }}
+        </button>
+      </div>
+    </div>
+    <div class="toolbar__meta">
+      <div class="toolbar__metric">
+        <span>إجمالي البلاغات</span>
+        <strong>{{ totalIncidents | number }}</strong>
+      </div>
+      <div class="toolbar__metric">
+        <span>البلاغات المعروضة</span>
+        <strong>{{ incidents.length | number }}</strong>
+      </div>
+    </div>
+  </section>
 
   <form class="filters" [formGroup]="form" (ngSubmit)="applyFilters()">
     <div class="filters__row">
@@ -38,6 +72,7 @@
         </select>
       </label>
     </div>
+
     <div class="filters__row">
       <label>
         حالة البلاغ
@@ -80,6 +115,102 @@
       </div>
     </div>
   </form>
+
+  <section class="analytics">
+    <div class="analytics__grid">
+      <article class="analytics-card analytics-card--chart">
+        <header class="analytics-card__header">
+          <div>
+            <h2>مواضيع البلاغات</h2>
+            <p>أكثر التصنيفات الفرعية تكراراً ضمن النتائج الحالية.</p>
+          </div>
+          <span class="analytics-card__meta">{{ incidents.length | number }} بلاغاً حالياً</span>
+        </header>
+        <div class="chart">
+          <div class="chart__visual" [style.background-image]="buildConicGradient(subCategoryBreakdown)">
+            <span *ngIf="!subCategoryBreakdown.length">لا توجد بيانات</span>
+          </div>
+          <ul class="chart__legend">
+            <li *ngFor="let entry of subCategoryBreakdown">
+              <span class="chart__bullet" [style.background]="entry.color"></span>
+              <span class="chart__label">{{ entry.label }}</span>
+              <span class="chart__value">{{ entry.value }}</span>
+              <span class="chart__percentage">{{ entry.percentage }}%</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="analytics-card analytics-card--kpi">
+        <header class="analytics-card__header">
+          <div>
+            <h2>عدد البلاغات</h2>
+            <p>إجمالي ما تم رصده من خلال النظام.</p>
+          </div>
+        </header>
+        <div class="kpi">
+          <strong>{{ totalIncidents | number }}</strong>
+          <span>إجمالي البلاغات المسجلة</span>
+        </div>
+        <div class="kpi__meta">
+          <div>
+            <span>نسبة الإنجاز</span>
+            <strong>{{ resolvedRate }}%</strong>
+          </div>
+          <div>
+            <span>أكثر تصنيف تكراراً</span>
+            <strong>{{ subCategoryBreakdown[0]?.label || '—' }}</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="analytics-card analytics-card--list">
+        <header class="analytics-card__header">
+          <div>
+            <h2>أكثر البلديات تكراراً</h2>
+            <p>الجهات التي ترد منها البلاغات بشكل متكرر.</p>
+          </div>
+        </header>
+        <ul class="ranked-list" *ngIf="centerBreakdown.length; else emptyCenters">
+          <li *ngFor="let entry of centerBreakdown; let index = index">
+            <span class="ranked-list__index">{{ index + 1 }}</span>
+            <div class="ranked-list__content">
+              <strong>{{ entry.label }}</strong>
+              <span>{{ entry.percentage }}% من البلاغات</span>
+            </div>
+            <span class="ranked-list__value">{{ entry.value }}</span>
+          </li>
+        </ul>
+        <ng-template #emptyCenters>
+          <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
+        </ng-template>
+      </article>
+
+      <article class="analytics-card analytics-card--bars">
+        <header class="analytics-card__header">
+          <div>
+            <h2>تحليل حالات البلاغات</h2>
+            <p>توزيع البلاغات حسب حالة المعالجة الحالية.</p>
+          </div>
+        </header>
+        <ul class="bar-list" *ngIf="statusBreakdown.length; else emptyStatuses">
+          <li *ngFor="let entry of statusBreakdown">
+            <div class="bar-list__label">
+              <span>{{ entry.label }}</span>
+              <span>{{ entry.value }}</span>
+            </div>
+            <div class="bar-list__bar">
+              <div class="bar-list__value" [style.width.%]="entry.percentage" [style.background]="entry.color"></div>
+            </div>
+            <span class="bar-list__percentage">{{ entry.percentage }}%</span>
+          </li>
+        </ul>
+        <ng-template #emptyStatuses>
+          <div class="ranked-list__empty">لا توجد بيانات متاحة.</div>
+        </ng-template>
+      </article>
+    </div>
+  </section>
 
   <section class="results">
     <div class="table-container" *ngIf="incidents.length; else emptyState">
@@ -157,15 +288,3 @@
     <span>جاري التحميل...</span>
   </div>
 </div>
-
-<app-chat-assistant
-  [centers]="centers"
-  [neighborhoods]="neighborhoods"
-  [roads]="roads"
-  [priorities]="priorities"
-  [statuses]="statuses"
-  [subCategories]="subCategories"
-  [pageSizeOptions]="pageSizeOptions"
-  [defaultPageSize]="pageSizeOptions[0]"
-  (searchCompleted)="onChatSearchCompleted($event)"
-></app-chat-assistant>

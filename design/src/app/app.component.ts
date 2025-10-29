@@ -8,6 +8,16 @@ import { MediaIncidentService } from './services/media-incident.service';
 import { LoadingService } from './services/loading.service';
 import { ChatSearchResult } from './chat-assistant/chat-assistant.component';
 
+type DistributionSegment = {
+  label: string;
+  value: number;
+  color: string;
+};
+
+type DistributionView = DistributionSegment & {
+  percentage: number;
+};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,6 +30,12 @@ export class AppComponent implements OnInit {
   readonly loading$ = this.loadingService.loading$;
   readonly pageSizeOptions = [10, 25, 50];
   readonly mediaMonitoringMainCategoryId = 34;
+  readonly quickRanges = [
+    { label: 'آخر ٧ أيام', value: 'week' },
+    { label: 'آخر ٣٠ يوماً', value: 'month' },
+    { label: 'آخر ٩٠ يوماً', value: 'quarter' },
+    { label: 'منذ البداية', value: 'lifetime' }
+  ] as const;
   readonly lookupTypes = {
     center: 'Center',
     neighborhood: 'Neighborhood',
@@ -29,6 +45,11 @@ export class AppComponent implements OnInit {
     mainCategory: 'MainCategory',
     subCategory: 'SubCategory'
   } as const;
+  activeQuickRange: (typeof this.quickRanges)[number]['value'] = this.quickRanges[1].value;
+  private readonly palette = ['#1F7A8C', '#F0A500', '#7DCEA0', '#A569BD', '#E74C3C', '#16A34A', '#F97316'];
+  private readonly resolvedKeywords = ['مغلق', 'منجز', 'مكتمل', 'تم', 'مقفلة', 'مغلقة', 'closed', 'resolved', 'complete', 'finished'].map(
+    keyword => keyword.toLowerCase()
+  );
 
   centers: LookupItem[] = [];
   neighborhoods: LookupItem[] = [];
@@ -59,6 +80,32 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.loadLookupItems();
     this.loadIncidents();
+  }
+
+  get totalIncidents(): number {
+    return this.pagination?.totalCount ?? this.incidents.length;
+  }
+
+  get resolvedRate(): number {
+    const total = this.incidents.length;
+
+    if (!total) {
+      return 0;
+    }
+
+    return Math.round((this.getResolvedIncidentsCount() / total) * 100);
+  }
+
+  get subCategoryBreakdown(): DistributionView[] {
+    return this.toDistributionView(this.getDistribution(incident => incident.subCategoryName).slice(0, 5));
+  }
+
+  get centerBreakdown(): DistributionView[] {
+    return this.toDistributionView(this.getDistribution(incident => incident.centerName).slice(0, 4));
+  }
+
+  get statusBreakdown(): DistributionView[] {
+    return this.toDistributionView(this.getDistribution(incident => incident.statusName));
   }
 
   applyFilters(): void {
@@ -97,6 +144,27 @@ export class AppComponent implements OnInit {
     }
 
     this.loadIncidents(page);
+  }
+
+  setQuickRange(range: (typeof this.quickRanges)[number]['value']): void {
+    this.activeQuickRange = range;
+  }
+
+  buildConicGradient(entries: DistributionView[]): string {
+    if (!entries.length) {
+      return 'conic-gradient(#d1d5db 0deg 360deg)';
+    }
+
+    let startAngle = 0;
+    const segments = entries.map(entry => {
+      const sweep = (entry.percentage / 100) * 360;
+      const endAngle = startAngle + sweep;
+      const segment = `${entry.color} ${startAngle}deg ${endAngle}deg`;
+      startAngle = endAngle;
+      return segment;
+    });
+
+    return `conic-gradient(${segments.join(', ')})`;
   }
 
   private buildFilters(pageNumber = 1): MediaIncidentFilters {
@@ -206,5 +274,70 @@ export class AppComponent implements OnInit {
 
     this.incidents = incidents;
     this.pagination = pagination ?? null;
+  }
+
+  private getDistribution(
+    getKey: (incident: MediaIncident) => string | null | undefined,
+    getColor?: (incident: MediaIncident) => string | null | undefined
+  ): DistributionSegment[] {
+    if (!this.incidents.length) {
+      return [];
+    }
+
+    const distribution = new Map<string, { count: number; color?: string }>();
+
+    for (const incident of this.incidents) {
+      const label = this.normalizeLabel(getKey(incident));
+      const color = getColor?.(incident) ?? undefined;
+      const existing = distribution.get(label);
+
+      if (existing) {
+        existing.count += 1;
+        if (!existing.color && color) {
+          existing.color = color;
+        }
+      } else {
+        distribution.set(label, { count: 1, color });
+      }
+    }
+
+    const entries = Array.from(distribution.entries())
+      .map(([label, { count, color }], index) => ({
+        label,
+        value: count,
+        color: color || this.palette[index % this.palette.length]
+      }))
+      .sort((a, b) => b.value - a.value);
+
+    return entries;
+  }
+
+  private toDistributionView(entries: DistributionSegment[]): DistributionView[] {
+    if (!entries.length) {
+      return [];
+    }
+
+    const total = entries.reduce((sum, entry) => sum + entry.value, 0);
+
+    if (!total) {
+      return entries.map(entry => ({ ...entry, percentage: 0 }));
+    }
+
+    return entries.map(entry => ({
+      ...entry,
+      percentage: Math.round((entry.value / total) * 100)
+    }));
+  }
+
+  private normalizeLabel(value: string | null | undefined): string {
+    const trimmed = (value ?? '').trim();
+    return trimmed || 'غير محدد';
+  }
+
+  private getResolvedIncidentsCount(): number {
+    return this.incidents.filter(incident => {
+      const status = incident.statusName?.toLowerCase() ?? '';
+      return Boolean(status) && this.resolvedKeywords.some(keyword => status.includes(keyword));
+    }).length;
   }
 }
