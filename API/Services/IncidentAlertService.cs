@@ -181,11 +181,6 @@ namespace API.Services
             builder.AppendLine();
             builder.AppendLine($"رقم البلاغ: {incident.IncidentId}");
 
-            if (!string.IsNullOrWhiteSpace(incident.RefId))
-            {
-                builder.AppendLine($"الرقم المرجعي: {incident.RefId}");
-            }
-
             if (!string.IsNullOrWhiteSpace(incident.PriorityName))
             {
                 builder.AppendLine($"درجة الأولوية: {incident.PriorityName}");
@@ -219,11 +214,6 @@ namespace API.Services
             if (!string.IsNullOrWhiteSpace(incident.RoadName))
             {
                 builder.AppendLine($"الطريق: {incident.RoadName}");
-            }
-
-            if (!string.IsNullOrWhiteSpace(incident.SourceOfIncident))
-            {
-                builder.AppendLine($"مصدر البلاغ: {incident.SourceOfIncident}");
             }
 
             builder.AppendLine($"تاريخ الإنشاء (UTC): {incident.CreatedAt:yyyy-MM-dd HH:mm:ss}");
