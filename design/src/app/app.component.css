@@ -454,7 +454,11 @@
   font-size: 0.85rem;
 }
 
-.analytics-card--chart {
+.analytics-card--chart-wide {
+  grid-column: span 2;
+}
+
+.analytics-card--trend {
   grid-column: span 2;
 }
 
@@ -517,6 +521,55 @@
 .chart__percentage {
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.trend {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.trend__chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.9rem;
+  min-height: 180px;
+}
+
+.trend__bar {
+  position: relative;
+  flex: 1;
+  border-radius: 16px 16px 6px 6px;
+  background: linear-gradient(180deg, rgba(216, 162, 51, 0.85) 0%, rgba(216, 162, 51, 0.35) 100%);
+  box-shadow: 0 12px 24px rgba(23, 108, 85, 0.1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.trend__bar:hover {
+  transform: translateY(-4px);
+}
+
+.trend__value {
+  color: var(--primary-dark);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  box-shadow: 0 6px 16px rgba(23, 108, 85, 0.18);
+}
+
+.trend__labels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 0.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .chart__percentage {
@@ -814,7 +867,8 @@ tbody tr:hover {
 }
 
 @media (max-width: 1200px) {
-  .analytics-card--chart {
+  .analytics-card--chart-wide,
+  .analytics-card--trend {
     grid-column: span 1;
   }
 
