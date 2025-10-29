@@ -230,7 +230,11 @@ namespace API.Services
 
             if (incident.Lat.HasValue && incident.Lng.HasValue)
             {
-                builder.AppendLine($"الإحداثيات: {incident.Lat.Value}, {incident.Lng.Value}");
+                var lat = incident.Lat.Value;
+                var lng = incident.Lng.Value;
+                var mapsUrl = $"https://www.google.com/maps?q={lat},{lng}";
+                builder.AppendLine($"📍 الإحداثيات: {lat}, {lng}");
+                builder.AppendLine($"رابط الموقع على الخريطة: {mapsUrl}");
             }
 
             if (!string.IsNullOrWhiteSpace(incident.RepresentativeImageUrl))
