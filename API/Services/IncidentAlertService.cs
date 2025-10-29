@@ -6,9 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using API.Data;
 using API.DTOs;
+using API.Entities;
 using API.Helpers;
 using API.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -21,11 +26,17 @@ namespace API.Services
         private readonly IEmailSender _emailSender;
         private readonly ILogger<IncidentAlertService> _logger;
         private readonly IReadOnlyCollection<string> _recipients;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public IncidentAlertService(IEmailSender emailSender, IOptions<MailSettings> mailOptions, ILogger<IncidentAlertService> logger)
+        public IncidentAlertService(
+            IEmailSender emailSender,
+            IOptions<MailSettings> mailOptions,
+            ILogger<IncidentAlertService> logger,
+            IServiceScopeFactory scopeFactory)
         {
             _emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
 
             if (mailOptions == null)
             {
@@ -61,16 +72,73 @@ namespace API.Services
                 var subject = $"بلاغ عاجل ({incident.PriorityName ?? "غير معروف"}) - {incident.RefId ?? incident.IncidentId.ToString(CultureInfo.InvariantCulture)}";
                 var body = BuildBody(incident);
 
+                IncidentNotification? notificationRecord = null;
+
+                await using var scope = _scopeFactory.CreateAsyncScope();
+                var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                try
+                {
+                    notificationRecord = new IncidentNotification
+                    {
+                        IncidentId = incident.IncidentId,
+                        CreatedAtUtc = DateTime.UtcNow
+                    };
+
+                    context.IncidentNotifications.Add(notificationRecord);
+                    await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                }
+                catch (DbUpdateException dbUpdateException) when (IsDuplicateNotificationException(dbUpdateException))
+                {
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to record notification entry for incident {IncidentId}.", incident.IncidentId);
+                    NotifiedIncidents.TryRemove(incident.IncidentId, out _);
+                    continue;
+                }
+
                 try
                 {
                     await _emailSender.SendEmailAsync(_recipients, subject, body, cancellationToken).ConfigureAwait(false);
+
+                    if (notificationRecord != null)
+                    {
+                        notificationRecord.SentAtUtc = DateTime.UtcNow;
+                        await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    }
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Failed to send alert email for incident {IncidentId}.", incident.IncidentId);
                     NotifiedIncidents.TryRemove(incident.IncidentId, out _);
+
+                    if (notificationRecord != null)
+                    {
+                        context.IncidentNotifications.Remove(notificationRecord);
+
+                        try
+                        {
+                            await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                        }
+                        catch (Exception cleanupEx)
+                        {
+                            _logger.LogWarning(cleanupEx, "Failed to cleanup notification record for incident {IncidentId} after email failure.", incident.IncidentId);
+                        }
+                    }
                 }
             }
+        }
+
+        private static bool IsDuplicateNotificationException(DbUpdateException exception)
+        {
+            if (exception.InnerException is SqlException sqlException)
+            {
+                return sqlException.Number == 2627 || sqlException.Number == 2601;
+            }
+
+            return false;
         }
 
         private static bool IsAlertPriority(string? priorityName)

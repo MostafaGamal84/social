@@ -45,6 +45,22 @@ namespace API.Migrations
                     b.ToTable("categories", "dbo");
                 });
 
+            modelBuilder.Entity("API.Entities.IncidentNotification", b =>
+                {
+                    b.Property<int>("IncidentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SentAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("IncidentId");
+
+                    b.ToTable("IncidentNotifications", "dbo");
+                });
+
             modelBuilder.Entity("API.Entities.MediaIncidentView", b =>
                 {
                     b.Property<int?>("CenterId")
