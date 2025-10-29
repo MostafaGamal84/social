@@ -1,13 +1,15 @@
 :root {
   color-scheme: light;
-  --surface: #f5f7fa;
+  --surface: #f4f1e6;
   --surface-contrast: #ffffff;
-  --border: #d9e1ec;
-  --primary: #1f7a8c;
-  --primary-dark: #15586b;
-  --text: #0f172a;
-  --muted: #64748b;
-  --danger: #dc2626;
+  --border: #d9cfa8;
+  --primary: #176c55;
+  --primary-dark: #0f4f3c;
+  --accent: #d8a233;
+  --accent-dark: #c08a1c;
+  --text: #14322a;
+  --muted: #5f6f69;
+  --danger: #c23524;
   font-family: 'Tajawal', 'Segoe UI', sans-serif;
 }
 
