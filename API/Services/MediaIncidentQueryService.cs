@@ -51,9 +51,11 @@ namespace API.Services
 
                 var items = await ExecuteQueryAsync(connection, whereClause, filterParameters, queryParams, cancellationToken).ConfigureAwait(false);
 
+                var pagedResult = new PagedList<MediaIncidentDto>(items, totalCount, queryParams.PageNumber, queryParams.PageSize);
+
                 await _incidentAlertService.NotifyCriticalIncidentsAsync(items, cancellationToken).ConfigureAwait(false);
 
-                return new PagedList<MediaIncidentDto>(items, totalCount, queryParams.PageNumber, queryParams.PageSize);
+                return pagedResult;
             }
             catch (Exception ex)
             {
