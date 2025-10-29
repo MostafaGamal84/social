@@ -177,11 +177,38 @@
           <span class="analytics-card__meta">{{ incidents.length | number }} بلاغاً حالياً</span>
         </header>
         <div class="chart">
-          <div class="chart__visual" [style.background-image]="buildConicGradient(subCategoryBreakdown)">
-            <span *ngIf="!subCategoryBreakdown.length">لا توجد بيانات</span>
+          <div
+            class="chart__visual"
+            [style.background-image]="buildConicGradient(subCategoryBreakdown, 'subCategory')"
+            (mouseleave)="setActiveSegment('subCategory', null)"
+          >
+            <ng-container *ngIf="subCategoryBreakdown.length; else emptySubCategoryChart">
+              <ng-container *ngIf="getActiveSegment(subCategoryBreakdown, 'subCategory') as active">
+                <div class="chart__details">
+                  <span class="chart__details-percentage">{{ active.percentage }}%</span>
+                  <span class="chart__details-label">{{ active.label }}</span>
+                  <span class="chart__details-value">{{ active.value | number }} بلاغاً</span>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-template #emptySubCategoryChart>
+              <span>لا توجد بيانات</span>
+            </ng-template>
           </div>
-          <ul class="chart__legend">
-            <li *ngFor="let entry of subCategoryBreakdown">
+          <ul
+            class="chart__legend"
+            (mouseleave)="setActiveSegment('subCategory', null)"
+            (focusout)="setActiveSegment('subCategory', null)"
+          >
+            <li
+              *ngFor="let entry of subCategoryBreakdown"
+              role="button"
+              tabindex="0"
+              (mouseenter)="setActiveSegment('subCategory', entry.label)"
+              (focus)="setActiveSegment('subCategory', entry.label)"
+              (blur)="setActiveSegment('subCategory', null)"
+              [class.is-active]="isActiveSegment(entry, subCategoryBreakdown, 'subCategory')"
+            >
               <span class="chart__bullet" [style.background]="entry.color"></span>
               <span class="chart__label">{{ entry.label }}</span>
               <span class="chart__value">{{ entry.value }}</span>
@@ -269,9 +296,33 @@
             </div>
           </header>
           <div class="chart" *ngIf="priorityBreakdown.length; else emptyPriorities">
-            <div class="chart__visual" [style.background-image]="buildConicGradient(priorityBreakdown)"></div>
-            <ul class="chart__legend">
-              <li *ngFor="let entry of priorityBreakdown">
+            <div
+              class="chart__visual"
+              [style.background-image]="buildConicGradient(priorityBreakdown, 'priority')"
+              (mouseleave)="setActiveSegment('priority', null)"
+            >
+              <ng-container *ngIf="getActiveSegment(priorityBreakdown, 'priority') as activePriority">
+                <div class="chart__details">
+                  <span class="chart__details-percentage">{{ activePriority.percentage }}%</span>
+                  <span class="chart__details-label">{{ activePriority.label }}</span>
+                  <span class="chart__details-value">{{ activePriority.value | number }} بلاغاً</span>
+                </div>
+              </ng-container>
+            </div>
+            <ul
+              class="chart__legend"
+              (mouseleave)="setActiveSegment('priority', null)"
+              (focusout)="setActiveSegment('priority', null)"
+            >
+              <li
+              *ngFor="let entry of priorityBreakdown"
+              role="button"
+              tabindex="0"
+              (mouseenter)="setActiveSegment('priority', entry.label)"
+              (focus)="setActiveSegment('priority', entry.label)"
+              (blur)="setActiveSegment('priority', null)"
+              [class.is-active]="isActiveSegment(entry, priorityBreakdown, 'priority')"
+            >
                 <span class="chart__bullet" [style.background]="entry.color"></span>
                 <span class="chart__label">{{ entry.label }}</span>
                 <span class="chart__value">{{ entry.value }}</span>
