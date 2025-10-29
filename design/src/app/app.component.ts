@@ -24,6 +24,8 @@ type TrendPoint = {
   normalized: number;
 };
 
+type InteractiveChartKey = 'subCategory' | 'priority';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -77,6 +79,11 @@ export class AppComponent implements OnInit {
   statuses: LookupItem[] = [];
   mainCategories: LookupItem[] = [];
   subCategories: LookupItem[] = [];
+
+  activeSegments: Record<InteractiveChartKey, string | null> = {
+    subCategory: null,
+    priority: null
+  };
 
   constructor(
     private readonly fb: FormBuilder,
@@ -204,21 +211,43 @@ export class AppComponent implements OnInit {
     this.loadIncidents(1);
   }
 
-  buildConicGradient(entries: DistributionView[]): string {
+  buildConicGradient(entries: DistributionView[], chartKey?: InteractiveChartKey): string {
     if (!entries.length) {
       return 'conic-gradient(#d1d5db 0deg 360deg)';
     }
 
+    const activeLabel = chartKey ? this.getActiveLabel(entries, chartKey) : null;
     let startAngle = 0;
     const segments = entries.map(entry => {
+      const color = activeLabel && entry.label !== activeLabel ? this.getMutedColor(entry.color) : entry.color;
       const sweep = (entry.percentage / 100) * 360;
       const endAngle = startAngle + sweep;
-      const segment = `${entry.color} ${startAngle}deg ${endAngle}deg`;
+      const segment = `${color} ${startAngle}deg ${endAngle}deg`;
       startAngle = endAngle;
       return segment;
     });
 
     return `conic-gradient(${segments.join(', ')})`;
+  }
+
+  setActiveSegment(chart: InteractiveChartKey, label: string | null): void {
+    if (this.activeSegments[chart] === label) {
+      return;
+    }
+
+    this.activeSegments = {
+      ...this.activeSegments,
+      [chart]: label
+    };
+  }
+
+  isActiveSegment(entry: DistributionView, entries: DistributionView[], chart: InteractiveChartKey): boolean {
+    return this.getActiveLabel(entries, chart) === entry.label;
+  }
+
+  getActiveSegment(entries: DistributionView[], chart: InteractiveChartKey): DistributionView | null {
+    const label = this.getActiveLabel(entries, chart);
+    return label ? entries.find(entry => entry.label === label) ?? null : null;
   }
 
   getTrendHeight(point: TrendPoint): number {
@@ -583,6 +612,57 @@ export class AppComponent implements OnInit {
   private normalizeLabel(value: string | null | undefined): string {
     const trimmed = (value ?? '').trim();
     return trimmed || 'غير محدد';
+  }
+
+  private getActiveLabel(entries: DistributionView[], chart: InteractiveChartKey): string | null {
+    if (!entries.length) {
+      return null;
+    }
+
+    const activeLabel = this.activeSegments[chart];
+
+    if (activeLabel && entries.some(entry => entry.label === activeLabel)) {
+      return activeLabel;
+    }
+
+    return entries[0]?.label ?? null;
+  }
+
+  private getMutedColor(color: string): string {
+    const normalized = color?.trim();
+
+    if (!normalized) {
+      return '#d1d5db';
+    }
+
+    const hexMatch = normalized.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+
+    if (!hexMatch) {
+      return normalized;
+    }
+
+    let hex = hexMatch[1];
+
+    if (hex.length === 3) {
+      hex = hex
+        .split('')
+        .map(char => char + char)
+        .join('');
+    }
+
+    const num = Number.parseInt(hex, 16);
+    const r = (num >> 16) & 0xff;
+    const g = (num >> 8) & 0xff;
+    const b = num & 0xff;
+    const amount = 0.6;
+
+    const lighten = (channel: number) => Math.round(channel + (255 - channel) * amount);
+
+    const [lr, lg, lb] = [lighten(r), lighten(g), lighten(b)];
+
+    const toHex = (channel: number) => channel.toString(16).padStart(2, '0');
+
+    return `#${toHex(lr)}${toHex(lg)}${toHex(lb)}`;
   }
 
   private getResolvedIncidentsCount(): number {
