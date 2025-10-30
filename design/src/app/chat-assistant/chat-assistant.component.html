@@ -10,7 +10,21 @@
         <h3>مساعد الاستعلامات</h3>
         <p>اطلب البيانات وسيتم تجهيز الاستعلام تلقائياً.</p>
       </div>
-      <button type="button" class="chat__close" (click)="toggleChat()" aria-label="إغلاق المساعد">✕</button>
+      <div class="chat__controls">
+        <button
+          type="button"
+          class="chat__report"
+          (click)="generateReportFromConversation()"
+          [disabled]="isGeneratingReport || !hasConversationForReport"
+        >
+          <ng-container *ngIf="!isGeneratingReport; else chatReportLoading">تقرير المحادثة</ng-container>
+        </button>
+        <ng-template #chatReportLoading>
+          <span class="chat__spinner chat__spinner--inline" aria-hidden="true"></span>
+          <span>جارٍ التصدير…</span>
+        </ng-template>
+        <button type="button" class="chat__close" (click)="toggleChat()" aria-label="إغلاق المساعد">✕</button>
+      </div>
     </header>
 
     <div class="chat__messages" #messagesContainer>

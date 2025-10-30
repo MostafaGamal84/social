@@ -3,6 +3,7 @@ import { MediaIncident, MediaIncidentFilters, PaginatedResponse } from '../model
 import { LookupItem } from '../models/lookup';
 import { ChatAssistantMessage, ChatAssistantRequest, ChatAssistantResponse, ChatAssistantService } from '../services/chat-assistant.service';
 import { MediaIncidentService } from '../services/media-incident.service';
+import { ReportGenerationPayload, ReportService } from '../services/report.service';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -41,6 +42,7 @@ export class ChatAssistantComponent {
   isProcessing = false;
   userInput = '';
   awaitingConfirmation = false;
+  isGeneratingReport = false;
   private pendingSearchFilters: MediaIncidentFilters | null = null;
   messages: ChatMessage[] = [
     {
@@ -53,7 +55,8 @@ export class ChatAssistantComponent {
 
   constructor(
     private readonly incidentsService: MediaIncidentService,
-    private readonly chatAssistantService: ChatAssistantService
+    private readonly chatAssistantService: ChatAssistantService,
+    private readonly reportService: ReportService
   ) {}
 
   toggleChat(): void {
@@ -61,6 +64,13 @@ export class ChatAssistantComponent {
     if (this.isOpen) {
       this.scrollToBottom();
     }
+  }
+
+  get hasConversationForReport(): boolean {
+    return this.messages.some(message =>
+      message.includeInConversation !== false &&
+      (message.role === 'user' || (message.role === 'assistant' && (!message.variant || message.variant === 'default')))
+    );
   }
 
   sendMessage(): void {
@@ -187,6 +197,62 @@ export class ChatAssistantComponent {
     }
   }
 
+  generateReportFromConversation(): void {
+    if (this.isGeneratingReport) {
+      return;
+    }
+
+    const prompt = this.buildConversationReportPrompt();
+    if (!prompt) {
+      this.addMessage({
+        role: 'assistant',
+        text: 'لا توجد محادثة كافية لإنشاء تقرير حتى الآن.',
+        timestamp: new Date(),
+        variant: 'error',
+        includeInConversation: false
+      });
+      return;
+    }
+
+    this.isGeneratingReport = true;
+    this.addMessage({
+      role: 'assistant',
+      text: 'جارٍ تجهيز عرض تقديمي بناءً على سياق المحادثة...',
+      timestamp: new Date(),
+      variant: 'status',
+      includeInConversation: false
+    });
+
+    const payload: ReportGenerationPayload = {
+      prompt,
+      reportTitle: 'تقرير جلسة المساعد'
+    };
+
+    this.reportService.generate(payload).subscribe({
+      next: blob => {
+        this.isGeneratingReport = false;
+        this.downloadReport(blob, 'chat-session-report');
+        this.addMessage({
+          role: 'assistant',
+          text: 'تم إنشاء التقرير وتحميله بنجاح.',
+          timestamp: new Date(),
+          variant: 'status',
+          includeInConversation: false
+        });
+      },
+      error: () => {
+        this.isGeneratingReport = false;
+        this.addMessage({
+          role: 'assistant',
+          text: 'تعذر إنشاء التقرير حالياً، يرجى المحاولة لاحقاً.',
+          timestamp: new Date(),
+          variant: 'error',
+          includeInConversation: false
+        });
+      }
+    });
+  }
+
   private handleConfirmationResponse(text: string): void {
     const normalized = text.trim().toLowerCase();
     const affirmativeKeywords = ['نعم', 'ايوا', 'ايوه', 'yes', 'y', 'تمام', 'صح', 'اكيد'];
@@ -243,6 +309,45 @@ export class ChatAssistantComponent {
       variant: 'status',
       includeInConversation: false
     });
+  }
+
+  private buildConversationReportPrompt(): string | null {
+    const relevantMessages = this.messages.filter(message =>
+      message.includeInConversation !== false &&
+      (message.role === 'user' || (message.role === 'assistant' && (!message.variant || message.variant === 'default')))
+    );
+
+    if (!relevantMessages.length) {
+      return null;
+    }
+
+    const transcript = relevantMessages
+      .map(message => `${message.role === 'user' ? 'المستخدم' : 'المساعد'}: ${message.text}`)
+      .join('\n');
+
+    const filtersSummary = this.pendingSearchFilters
+      ? `\n\nعوامل التصفية المقترحة: ${JSON.stringify(this.pendingSearchFilters)}`
+      : '';
+
+    return [
+      'حوّل المحادثة التالية إلى عرض تقديمي موجز ومنظم باللغة العربية.',
+      'استخدم شرائح تتضمن مقدمة، ملخصاً تنفيذياً، أبرز النتائج، والتوصيات العملية.',
+      transcript,
+      filtersSummary,
+      '\nاعتمد أسلوباً مهنياً وركز على أهم النقاط التي تهم المستخدم.'
+    ].join('\n');
+  }
+
+  private downloadReport(blob: Blob, baseFileName: string): void {
+    const fileName = `${baseFileName}.pptx`;
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(url);
   }
 
   private executeSearch(filters: MediaIncidentFilters): void {

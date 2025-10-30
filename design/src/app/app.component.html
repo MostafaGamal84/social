@@ -60,6 +60,20 @@
     <div class="toolbar__actions">
       <button
         type="button"
+        class="report-download-button"
+        (click)="generateIncidentReport()"
+        [disabled]="isReportGenerating"
+      >
+        <ng-container *ngIf="!isReportGenerating; else reportLoading">
+          إنشاء تقرير PowerPoint
+        </ng-container>
+      </button>
+      <ng-template #reportLoading>
+        <span class="report-download-button__spinner" aria-hidden="true"></span>
+        <span>جاري التجهيز...</span>
+      </ng-template>
+      <button
+        type="button"
         class="theme-toggle"
         (click)="toggleTheme()"
         [attr.aria-pressed]="isDarkMode"
@@ -104,6 +118,8 @@
       </div>
     </div>
   </section>
+
+  <p class="report-download-error" *ngIf="reportGenerationError">{{ reportGenerationError }}</p>
 
   <div class="filters-sidebar" [class.filters-sidebar--open]="isFiltersOpen" [attr.aria-hidden]="!isFiltersOpen">
     <aside
