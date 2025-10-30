@@ -15,7 +15,7 @@
   --overlay: rgba(20, 79, 60, 0.4);
   --primary: #005241;
   --primary-dark: #005241;
-  --accent: #c4aa77;
+  --accent: #005241;
   --accent-dark: #b4945e;
   --text: #005241;
   --text-on-primary: #ffffff;
@@ -75,9 +75,9 @@ body.dark-theme {
   --surface-primary-overlay-strong: rgba(255, 255, 255, 0.18);
   --surface-primary-overlay-bright: rgba(228, 243, 239, 0.35);
   --overlay: rgba(6, 13, 15, 0.55);
-  --primary: #0f766e;
-  --primary-dark: #0f766e;
-  --accent: #f6c36a;
+  --primary: #005241;
+  --primary-dark: #beccc9;
+  --accent: #e4f3ef;
   --accent-dark: #f0b144;
   --text: #e4f3ef;
   --text-on-primary: #e4f3ef;
