@@ -7,6 +7,7 @@ import { LookupItem } from './models/lookup';
 import { LookupService } from './services/lookup.service';
 import { MediaIncidentService } from './services/media-incident.service';
 import { LoadingService } from './services/loading.service';
+import { ReportGenerationPayload, ReportService } from './services/report.service';
 import { ChatSearchResult } from './chat-assistant/chat-assistant.component';
 
 type DistributionSegment = {
@@ -88,11 +89,15 @@ export class AppComponent implements OnInit {
     priority: null
   };
 
+  isReportGenerating = false;
+  reportGenerationError: string | null = null;
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly lookupService: LookupService,
     private readonly incidentsService: MediaIncidentService,
     private readonly loadingService: LoadingService,
+    private readonly reportService: ReportService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {
     this.form = this.fb.group({
@@ -178,6 +183,38 @@ export class AppComponent implements OnInit {
     this.activeQuickRange = this.defaultQuickRange;
     this.loadIncidents(1);
     this.closeFilters();
+  }
+
+  generateIncidentReport(): void {
+    if (this.isReportGenerating) {
+      return;
+    }
+
+    const prompt = this.buildReportPromptFromDashboard();
+    if (!prompt) {
+      this.reportGenerationError = 'لا توجد بيانات كافية لإنشاء التقرير حالياً.';
+      return;
+    }
+
+    this.reportGenerationError = null;
+    this.isReportGenerating = true;
+
+    const payload: ReportGenerationPayload = {
+      prompt,
+      reportTitle: 'تقرير الرصد الإعلامي',
+      summary: this.buildReportSummaryLine()
+    };
+
+    this.reportService.generate(payload).subscribe({
+      next: blob => {
+        this.isReportGenerating = false;
+        this.triggerReportDownload(blob, payload.reportTitle ?? 'media-report');
+      },
+      error: () => {
+        this.isReportGenerating = false;
+        this.reportGenerationError = 'تعذر إنشاء التقرير، يرجى المحاولة لاحقاً.';
+      }
+    });
   }
 
   toggleFilters(): void {
@@ -730,5 +767,132 @@ export class AppComponent implements OnInit {
 
       return matchesArabic || matchesEnglish;
     }).length;
+  }
+
+  private buildReportPromptFromDashboard(): string | null {
+    const filters = this.buildFilters(this.pagination?.currentPage ?? 1);
+    const filterDescriptions = this.describeCurrentFilters(filters);
+    const incidentsSummary = this.buildIncidentsSample();
+
+    if (!filterDescriptions.length && incidentsSummary.length === 0) {
+      return null;
+    }
+
+    const lines: string[] = [
+      'أعد عرضاً تقديمياً احترافياً باللغة العربية يلخص حالة الرصد الإعلامي الحالية.',
+      'استخدم القالب المقدم واستبدل الحقول بالنصوص المناسبة.',
+      `إجمالي البلاغات المعروضة حالياً: ${this.incidents.length}.`,
+      `إجمالي البلاغات في النظام: ${this.pagination?.totalCount ?? this.incidents.length}.`,
+      `معدل الإنجاز الحالي: ${this.resolvedRate}%`,
+      '',
+      'تفاصيل عوامل التصفية:'
+    ];
+
+    if (filterDescriptions.length) {
+      lines.push(...filterDescriptions.map(item => `- ${item}`));
+    } else {
+      lines.push('- لا توجد عوامل تصفية خاصة، أعط نظرة عامة شاملة.');
+    }
+
+    if (incidentsSummary.length) {
+      lines.push('', 'عينات من البلاغات الأخيرة:');
+      lines.push(...incidentsSummary.map(item => `- ${item}`));
+    }
+
+    lines.push('', 'قسم العرض إلى أقسام مرقمة تتضمن أبرز المؤشرات والتوصيات العملية.');
+
+    return lines.join('\n');
+  }
+
+  private buildReportSummaryLine(): string {
+    const total = this.pagination?.totalCount ?? this.incidents.length;
+    const resolved = this.getResolvedIncidentsCount();
+    if (total === 0) {
+      return 'لا توجد بلاغات متاحة حالياً ضمن عوامل التصفية المحددة.';
+    }
+
+    const resolvedRate = Math.round((resolved / total) * 100);
+    return `يتناول التقرير ${total} بلاغاً مع نسبة إنجاز تبلغ ${resolvedRate}% (عدد البلاغات المنجزة: ${resolved}).`;
+  }
+
+  private describeCurrentFilters(filters: MediaIncidentFilters): string[] {
+    const descriptions: string[] = [];
+
+    if (filters.search) {
+      descriptions.push(`كلمة البحث: ${filters.search}`);
+    }
+
+    const centerName = this.findLookupName(this.centers, filters.centerId);
+    if (centerName) {
+      descriptions.push(`البلدية: ${centerName}`);
+    }
+
+    const neighborhoodName = this.findLookupName(this.neighborhoods, filters.neighborhoodId);
+    if (neighborhoodName) {
+      descriptions.push(`الحي: ${neighborhoodName}`);
+    }
+
+    const roadName = this.findLookupName(this.roads, filters.roadId);
+    if (roadName) {
+      descriptions.push(`الطريق: ${roadName}`);
+    }
+
+    const subCategoryName = this.findLookupName(this.subCategories, filters.subCategoryId);
+    if (subCategoryName) {
+      descriptions.push(`التصنيف الفرعي: ${subCategoryName}`);
+    }
+
+    const statusName = this.findLookupName(this.statuses, filters.statusId);
+    if (statusName) {
+      descriptions.push(`الحالة: ${statusName}`);
+    }
+
+    const priorityName = this.findLookupName(this.priorities, filters.priorityId);
+    if (priorityName) {
+      descriptions.push(`درجة الخطورة: ${priorityName}`);
+    }
+
+    if (filters.startDate || filters.endDate) {
+      const start = filters.startDate ? new Date(filters.startDate).toLocaleDateString('ar-EG') : 'غير محدد';
+      const end = filters.endDate ? new Date(filters.endDate).toLocaleDateString('ar-EG') : 'غير محدد';
+      descriptions.push(`النطاق الزمني: من ${start} إلى ${end}`);
+    }
+
+    return descriptions;
+  }
+
+  private buildIncidentsSample(): string[] {
+    if (!this.incidents.length) {
+      return [];
+    }
+
+    return this.incidents.slice(0, Math.min(this.incidents.length, 6)).map((incident, index) => {
+      const createdAt = new Date(incident.createdAt).toLocaleDateString('ar-EG');
+      const status = incident.statusName ?? 'غير محدد';
+      const category = incident.subCategoryName ?? 'غير مصنف';
+      const center = incident.centerName ?? 'غير محدد';
+      return `${index + 1}. ${category} - الحالة: ${status} - البلدية: ${center} - التاريخ: ${createdAt}`;
+    });
+  }
+
+  private findLookupName(items: LookupItem[], id?: number | null): string | null {
+    if (id == null) {
+      return null;
+    }
+
+    const match = items.find(item => item.lookupId === id);
+    return match?.lookupName ?? null;
+  }
+
+  private triggerReportDownload(blob: Blob, baseFileName: string): void {
+    const fileName = `${baseFileName.replace(/\s+/g, '-').toLowerCase()}.pptx`;
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(url);
   }
 }

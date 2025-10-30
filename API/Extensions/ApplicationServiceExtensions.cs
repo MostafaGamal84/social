@@ -23,7 +23,10 @@ namespace API.Extensions
             services.AddTransient<IEmailSender, SmtpEmailSender>();
             services.AddScoped<IMediaIncidentDataService, MediaIncidentQueryService>();
             services.Configure<OpenAiOptions>(config.GetSection("OpenAI"));
+            services.Configure<ReportingOptions>(config.GetSection("Reporting"));
             services.AddHttpClient<IChatAssistantService, ChatAssistantService>();
+            services.AddHttpClient<IAiReportContentService, OpenAiReportContentService>();
+            services.AddScoped<IReportGenerationService, ReportGenerationService>();
 
             services.AddDbContext<DataContext>(options =>
             {
